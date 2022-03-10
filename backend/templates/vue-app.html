@@ -1,0 +1,27 @@
+{% load static %}
+{% load i18n %}
+{% load render_bundle from webpack_loader %}
+{% load webpack_static from webpack_loader %}
+
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Vue App</title>
+  </head>
+  <body>
+    <noscript>
+      <strong>We're sorry but this site doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <div id="app"></div>
+    <script src="{% url 'jsi18n-djangojs' %}"></script>
+    <script src="{% url 'jsi18n-django' %}"></script>
+    <script>
+      window.JS_DATA = {{ js_data | safe }};
+    </script
+    {% render_bundle bundle %}
+    <script src="{% webpack_static "runtime.js" %}"></script>
+  </body>
+</html>

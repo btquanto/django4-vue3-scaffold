@@ -1,0 +1,22 @@
+# Ignore files and folders starting with '.'
+**/.*
+
+# Ignore local configuration
+docker-compose.yml
+
+# Ignore automatically generated files
+**/*.pyc
+dist/*
+webpack-stats.json
+
+# Ignore node_modules folders
+**/node_modules
+
+# Excludes these from .gitignore
+!**/.vscode
+!**/.gitignore
+!**/.eslintrc
+!**/.eslintrc.js
+!**/.prettierrc
+!**/.prettierrc.js
+!**/.pylintrc

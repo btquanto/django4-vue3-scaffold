@@ -1,0 +1,18 @@
+# Environment
+DEBUG=True
+
+# Django settings
+SECRET_KEY="9d4fe465-39f8-4e59-a64f-369b7472349a"
+ALLOWED_HOSTS="localhost,*"
+VERIFICATION_TOKEN_EXPIRATION=3600
+
+# Language and Time
+LANGUAGE_CODE="ja"
+TIME_ZONE="Asia/Tokyo"
+
+# Database
+DB_HOST="mysql"
+DB_NAME="app"
+DB_USER="app"
+DB_PASSWORD="mydbpassword"
+DB_PORT=3306

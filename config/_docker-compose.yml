@@ -1,0 +1,44 @@
+version: '3.8'
+
+volumes:
+  database:
+  wheeldir:
+  ssl:
+
+networks:
+  database:
+
+services:
+  mysql:
+    image: mariadb:10.5-focal
+    # restart: always
+    networks:
+        - database
+    environment:
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+    volumes:
+        - database:/var/lib/mysql
+  app:
+    image: python3-nginx
+    # restart: always
+    build:
+      context: ./docker/python3-nginx
+      dockerfile: Dockerfile
+    networks:
+      - database
+    environment:
+      - DJANGO_SETTINGS_MODULE=${DJANGO_CONFIG_MODULE}
+      - AUTO_START=${AUTO_START}
+    ports:
+      - ${PORT}:8080
+    volumes:
+      - ./:/src
+      - ./scripts/command.sh:/usr/bin/cmd:ro
+      - ./config/supervisor:/etc/supervisor
+      - ./config/nginx/nginx.conf:/etc/nginx/sites-available/default:ro
+      - wheeldir:/wheeldir
+      - ssl:/etc/nginx/ssl
+    entrypoint: [/src/scripts/start.sh]

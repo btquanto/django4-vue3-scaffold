@@ -1,0 +1,7 @@
+DB_NAME="app"
+DB_USER="app"
+DB_PASSWORD="mydbpassword"
+DB_ROOT_PASSWORD="secret!!!"
+PORT="7500"
+DJANGO_CONFIG_MODULE="config.local"
+AUTO_START="false"

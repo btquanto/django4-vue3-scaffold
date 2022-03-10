@@ -1,0 +1,9 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+"""
+Local configuration that would override default settings
+Use this file for complex configurations that cannot be specified in the .env environment file
+"""
+
+# pylint: disable=wildcard-import,unused-wildcard-import
+from config.settings import *

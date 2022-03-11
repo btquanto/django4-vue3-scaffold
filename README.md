@@ -68,7 +68,7 @@ There may be errors happens. This has only been tested on `node v14.x.x`. If you
 ## Check supervisor service status
 
     ./cmd status # All services
-    ./cmd status asgi nginx # Some services
+    ./cmd status asgi # Specific services
 
 # Access on browser
 

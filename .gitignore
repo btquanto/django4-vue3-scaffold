@@ -9,6 +9,9 @@ docker-compose.yml
 dist/*
 webpack-stats.json
 
+# Ignore logs
+logs/*
+
 # Ignore node_modules folders
 **/node_modules
 

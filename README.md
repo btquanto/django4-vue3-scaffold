@@ -69,3 +69,7 @@ There may be errors happens. This has only been tested on `node v14.x.x`. If you
 
     ./cmd status # All services
     ./cmd status asgi nginx # Some services
+
+# Access on browser
+
+After everything, you can access the page at `localhost:7500`

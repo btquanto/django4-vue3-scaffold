@@ -1,5 +1,6 @@
 #!/bin/bash
 set -u;
+cd /src
 
 # Checking apps dependencies
 echo "Server starting..."
@@ -36,11 +37,6 @@ else
         
         echo "All dependencies are installed";
     fi;
-fi
-
-if [ ! -f /etc/nginx/ssl/server.crt ]; then
-    # SSL Certificates
-    cmd renew-ssl
 fi
 
 # Services

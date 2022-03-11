@@ -8,6 +8,6 @@ class Index(TemplateView):
         context = super().get_context_data(**kwargs)
         context['bundle'] = 'sample_index'
         context['$context'] = {
-            'message': "Hello World"
+            'message': "Hello World 123"
         }
         return context

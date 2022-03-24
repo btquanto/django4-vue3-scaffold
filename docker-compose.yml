@@ -32,6 +32,12 @@ services:
       - ./backend/static:/static
       - ./dist:/dist
       - ./config/nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+  node:
+    image: node:17-alpine3.14
+    working_dir: /src
+    volumes:
+      - ./:/src
+    command: ["sleep", "infinity"]
   app:
     image: python:3.9-bullseye
     networks:

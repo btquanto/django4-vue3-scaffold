@@ -2,7 +2,6 @@
 **/.*
 
 # Ignore local configuration
-docker-compose.yml
 
 # Ignore automatically generated files
 **/*.pyc

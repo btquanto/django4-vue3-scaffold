@@ -1,6 +1,7 @@
 #!/bin/bash
 
-project=`basename "$(pwd)"`
+project=`basename "$(pwd)"`;
+env_docker="config/.env_docker";
 command="";
 
 if [ $# -gt 0 ]; then command=$1; fi
@@ -16,22 +17,21 @@ if [ $# -gt 1 ]; then shift; args=$@; fi;
 
 
 function dkrcmp() {
-  echo "docker-compose -p $project $@";
-  docker-compose -p $project $@;
+  echo "docker-compose --env-file $env_docker -p $project $@";
+  docker-compose --env-file $env_docker -p $project $@;
 }
 
 function build() {
   if [[ "$1" == 'dev' ]]; then
-    yarn $@;
+    dkrcmp exec node yarn $@;
   elif [[ "$1" == 'watch' ]]; then
-    yarn dev --watch;
+    dkrcmp exec node yarn dev --watch;
   else
-    yarn build;
+    dkrcmp exec node yarn build;
   fi
 }
 
 function init() {
-  COMPOSE_FILE="docker-compose.yml"
 
   if [ -f "config/.env_docker" ]; then
       source "config/.env_docker";
@@ -48,15 +48,6 @@ function init() {
       CONFIG_FILE="backend/config/local.py"
   fi
 
-  if [ ! -f $COMPOSE_FILE ]; then
-      if [ -f "config/_$COMPOSE_FILE" ]; then
-          echo "'$COMPOSE_FILE' not found. Generating..."
-          template="$(cat config/_$COMPOSE_FILE)";
-          eval "echo \"$template\"" > $COMPOSE_FILE;
-          echo "'$COMPOSE_FILE' is added to your project"
-      fi
-  fi
-
   if [ ! -f "config/.env" ]; then
       echo "'config/.env' not found. Generating...";
       cp config/_env config/.env;
@@ -68,10 +59,14 @@ function init() {
       cp backend/config/config.py.template $CONFIG_FILE;
       echo "'$CONFIG_FILE' is added to your project. You may want to update this file manually."
   fi
+  dkrcmp exec node apk --no-cache add git;
+  dkrcmp exec node yarn install;
 }
 
 if [[ "init" =~ "$command" ]]; then
   init;
+elif [[ "up" =~ "$command" ]]; then
+  dkrcmp up -d;
 elif [[ "docker system dkr sys" =~ "$command" ]]; then
   if [[ $args != "" ]]; then
     dkrcmp $args;
@@ -80,7 +75,7 @@ elif [[ "exec" =~ "$command" ]]; then
   dkrcmp exec app $args;
 elif [[ "install" =~ "$command" ]]; then
   if [[ $args == "node" ]]; then
-    yarn install;
+    dkrcmp exec node yarn install;
   else
     dkrcmp exec app pip3 install -r requirements.txt;
   fi
@@ -96,6 +91,7 @@ elif [[ "deploy" =~ "$command" ]]; then
     git checkout $args
   fi
   dkrcmp exec app pip3 install -r requirements.txt;
+  dkrcmp exec node yarn install;
   dkrcmp exec app cmd migrate;
   dkrcmp restart app;
   build prod;

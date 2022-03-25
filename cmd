@@ -79,6 +79,8 @@ elif [[ "install" =~ "$command" ]]; then
   else
     dkrcmp exec app pip3 install -r requirements.txt;
   fi
+elif [[ "yarn" =~ "$command" ]]; then
+  dkrcmp exec node yarn $@;
 elif [[ "logs" =~ "$command" ]]; then
   dkrcmp logs -f $args;
 elif [[ "build" =~ "$command" ]]; then
@@ -96,6 +98,6 @@ elif [[ "deploy" =~ "$command" ]]; then
   dkrcmp restart app;
   build prod;
 else
-  if [ $# -gt 1 ]; then shift; args=$@; fi;
-  dkrcmp exec app cmd $command $args
+  if [[ $# > 1 ]]; then shift; args=$@; fi;
+  dkrcmp exec app cmd $command $args;
 fi;

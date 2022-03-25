@@ -41,6 +41,7 @@ module.exports = {
     "vue/require-v-for-key": "warn",
     "vue/v-slot-style": "off",
     "vue/no-multiple-template-root": "off",
+    "vue/no-v-for-template-key": "off",
   },
   globals: {
     $: true,

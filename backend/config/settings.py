@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     # Third-party apps
     'webpack_loader',
     # Local apps
-    'sample',
+    'todo',
 ]
 
 MIDDLEWARE = [
@@ -101,7 +101,7 @@ DATABASES = {
         'USER': os.getenv('DB_USER', 'CHANGE_ME'),
         'PASSWORD': os.getenv('DB_PASSWORD', 'CHANGE_ME'),
         'HOST': os.getenv('DB_HOST', 'CHANGE_ME'),
-        'PORT':os.getenv('DB_PORT', 3306),
+        'PORT':os.getenv('DB_PORT', '3306'),
         'OPTIONS': {
             'charset': 'utf8mb4',
         },

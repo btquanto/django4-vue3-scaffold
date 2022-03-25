@@ -6,7 +6,7 @@ class Index(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['bundle'] = 'sample_index'
+        context['bundle'] = 'todo_index'
         context['$context'] = {
             'message': "Hello World 123"
         }

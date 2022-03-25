@@ -1,15 +1,16 @@
 <template>
-  <div className="$relative $flex $min-h-screen">
+  <div className="$relative $flex $min-h-screen $w-full">
     <!-- Side Bar -->
     <SideBar />
     <!-- Body -->
-    <div class="$flex-1">
+    <div class="$flex $flex-col $grow $min-h-screen">
       <!-- Header -->
       <HeaderBar />
       <!-- Content -->
-      <main class="$p-8 $text-cyan-700">
+      <main class="$grow $p-8 $text-cyan-700">
         <RouterView />
       </main>
+      <FooterBar />
     </div>
   </div>
 </template>
@@ -19,6 +20,7 @@ import "@/assets/css/tailwind.css";
 
 import SideBar from "./SideBar.vue";
 import HeaderBar from "./HeaderBar.vue";
+import FooterBar from "./FooterBar.vue";
 import { RouterView } from "vue-router";
 
 export default {
@@ -26,6 +28,7 @@ export default {
   components: {
     SideBar,
     HeaderBar,
+    FooterBar,
     RouterView,
   },
 };

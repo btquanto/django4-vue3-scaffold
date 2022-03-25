@@ -7,8 +7,8 @@ const OUTPUT_DIR = "./dist/";
 const INPUT_DIR = "./frontend/src/";
 
 const APPS = {
-  sample: {
-    index: { entry: `${INPUT_DIR}/entries/sample/index.js` },
+  todo: {
+    index: { entry: `${INPUT_DIR}/entries/todo/index.js` },
   },
 };
 

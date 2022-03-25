@@ -1,6 +1,7 @@
 module.exports = {
   extends: ["plugin:vue/recommended", "plugin:prettier/recommended", "eslint:recommended"],
   parserOptions: {
+    ecmaVersion: 13,
     ecmaFeatures: {
       jsx: true,
     },

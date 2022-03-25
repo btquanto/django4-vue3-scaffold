@@ -30,7 +30,7 @@
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-prettier-vue": "^2.1.1",
     "eslint-plugin-vue": "^8.0.3",
-    "gettext-vue": "git+https://github.com/btquanto/gettext-vue.git#3e5ed72580b79795a2d50b5c2afb2c1ec319fe38",
+    "gettext-vue": "https://github.com/btquanto/gettext-vue.git#3e5ed72580b79795a2d50b5c2afb2c1ec319fe38",
     "node-sass": "^7.0.1",
     "prettier": "^2.2.1",
     "sass-loader": "10.1.1",

@@ -12,9 +12,7 @@ read -r -d '' help <<-EOF
   ./cmd init
 
   Inititialize the project. This will generate local configuration files necessary to run the project.
-  This also installs certain necessary packages in certain containers.
   Basically, we would run this once at the beginning of the project.
-  We may want to run this again if certain containers are destroyed and recreated.
 
 # 'app' module
 
@@ -55,6 +53,18 @@ read -r -d '' help <<-EOF
     dev     : Build front-end in development mode
     build   : Build front-end in production mode
     lint    : Run linting
+
+
+# 'node' module
+
+  ./cmd node <command> <arguments>
+
+  Executing commands in node container
+
+  ## Commands
+
+    install   : Calling 'apk --no-cache add <arguments>'
+                If no <arguments> are specified, install 'git ssh'
   
 # 'docker' module
 
@@ -68,7 +78,7 @@ EOF
 
 if (( $# > 0 )); then app=$1; fi
 
-if [[ -z $app ]] || [[ ! "yarn app docker init" =~ $app ]]; then
+if [[ -z $app ]] || [[ ! "yarn app node docker init" =~ $app ]]; then
   printf "$help\n";
   exit 0;
 fi
@@ -110,11 +120,24 @@ if [[ $app == "app" ]]; then
   elif [[ $command == "install" ]]; then
     if [[ -z "$args" ]]; then
       dkrcmp exec app pip3 install -r requirements.txt;
+
     else
       dkrcmp exec app pip3 $command $args
     fi
   else
     dkrcmp exec app cmd $command $args;
+  fi
+fi
+
+if [[ $app == "node" ]]; then
+  if [[ $command == "install" ]]; then
+      if [[ -z "$args" ]]; then
+        dkrcmp exec node apk --no-cache add git;
+      else
+        dkrcmp exec node apk --no-cache add $args;
+      fi
+  else
+    dkrcmp exec node $command $args;
   fi
 fi
 

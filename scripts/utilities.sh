@@ -42,8 +42,6 @@ function init() {
       cp backend/config/config.py.template $CONFIG_FILE;
       echo "'$CONFIG_FILE' is added to your project. You may want to update this file manually."
   fi
-  dkrcmp exec node apk --no-cache add git ssh;
-  dkrcmp exec node yarn install;
 }
 
 function help() {

@@ -41,6 +41,7 @@ services:
     command: ["sleep", "infinity"]
   app:
     image: python:3.9-bullseye
+    working_dir: /src
     networks:
       - database
       - reversed_proxy

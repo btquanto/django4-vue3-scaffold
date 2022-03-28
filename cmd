@@ -2,102 +2,122 @@
 
 project=`basename "$(pwd)"`;
 env_docker="config/.env_docker";
-command="";
+source scripts/utilities.sh;
 
-if [ $# -gt 0 ]; then command=$1; fi
+read -r -d '' help <<-EOF
+  Help: ./cmd [init|app|yarn|docker] <command> <arguments>
 
-args="";
+# 'init' module
 
-if [[ "start stop restart status" =~ "$command" ]]; then args="all"
-elif [[ "logs" =~ "$command" ]]; then args="app";
-elif [[ "build" =~ "$command" ]]; then args="dev";
+  ./cmd init
+
+  Inititialize the project. This will generate local configuration files necessary to run the project.
+  This also installs certain necessary packages in certain containers.
+  Basically, we would run this once at the beginning of the project.
+  We may want to run this again if certain containers are destroyed and recreated.
+
+# 'app' module
+
+  ./cmd app <command> <arguments>
+
+  ## Example
+
+    ./cmd app install -U pip # Upgrade pip requirements
+
+  ## Commands
+
+    install <arguments>:
+      Calling 'pip3 install <arguments>'.
+      If no <arguments> is provided, default to calling 'pip3 install -r requirements.txt'
+      
+    exec    : exec the command specified in <arguments>
+    
+    serve <port>  : Run the application in debug mode.
+                    If no port is specified, it will default to port 8000
+
+    [start|stop|restart|status] <supervisor service> : 
+              Start/Stop/Restart/Checking Status supervisor services.
+              If no services are specified, all services are selected.
+
+    [migrate|makemigrations|showmigrations|makemessages|compilemessages|...] <arguments> :
+              django_admin commands.
+
+
+# 'yarn' module
+
+  ./cmd yarn <command> <arguments>
+
+  Calling yarn commands
+
+  ## Commands
+
+    serve   : Serve front-end in development mode and watch for changes
+    dev     : Build front-end in development mode
+    build   : Build front-end in production mode
+    lint    : Run linting
+  
+# 'docker' module
+
+  ./cmd docker <command> <arguments>
+
+  Shortcut for calling 
+  
+    docker-compose --env-file /path/to/env/file -p <project_name> <command> <arguments>
+
+EOF
+
+if (( $# > 0 )); then app=$1; fi
+
+if [[ -z $app ]] || [[ ! "yarn app docker init" =~ $app ]]; then
+  printf "$help\n";
+  exit 0;
 fi
 
-if [ $# -gt 1 ]; then shift; args=$@; fi;
+command=""
+if (($# > 1)); then command=$2; fi;
 
+shift 2;
 
-function dkrcmp() {
-  echo "docker-compose --env-file $env_docker -p $project $@";
-  docker-compose --env-file $env_docker -p $project $@;
-}
+args=""
+for arg in "$@"; do
+    arg="${arg//\\/\\\\}"
+    if [[ $arg == *" "* ]]; then
+      args="$args \"${arg//\"/\\\"}\""
+    else
+      args="$args ${arg//\"/\\\"}"
+    fi
+done
 
-function build() {
-  if [[ "$1" == 'dev' ]]; then
-    dkrcmp exec node yarn $@;
-  elif [[ "$1" == 'watch' ]]; then
-    dkrcmp exec node yarn dev --watch;
+if [[ $app == "init" ]]; then init; fi
+
+if [[ $app == "docker" ]]; then
+  if [[ $command == "up" && -z "$args" ]]; then
+    args="-d";
+  fi
+  if [[ $command == "logs" && -z "$args" ]]; then
+    args="-f app";
+  fi
+  echo "$args"
+  dkrcmp $command $args;
+fi
+
+if [[ $app == "app" ]]; then
+  if [[ "start stop restart status" =~ "$command"  && -z "$args" ]]; then 
+    args="all";
+  fi
+  if [[ $command == "exec" ]]; then
+    dkrcmp exec app $args;
+  elif [[ $command == "install" ]]; then
+    if [[ -z "$args" ]]; then
+      dkrcmp exec app pip3 install -r requirements.txt;
+    else
+      dkrcmp exec app pip3 $command $args
+    fi
   else
-    dkrcmp exec node yarn build;
+    dkrcmp exec app cmd $command $args;
   fi
-}
+fi
 
-function init() {
-
-  if [ -f "config/.env_docker" ]; then
-      source "config/.env_docker";
-  else
-      echo "Docker environment file (config/.env_docker) not found.";
-      echo "Please create a 'config/.env_docker' from the template 'config/_env_docker'.";
-      echo "Quick command: cp config/_env_docker config/.env_docker";
-      exit 1;
-  fi
-
-  if [ ! -z "$DJANGO_CONFIG_MODULE" ]; then
-      CONFIG_FILE="backend/${DJANGO_CONFIG_MODULE//\.//}.py";
-  else
-      CONFIG_FILE="backend/config/local.py"
-  fi
-
-  if [ ! -f "config/.env" ]; then
-      echo "'config/.env' not found. Generating...";
-      cp config/_env config/.env;
-      echo "'config/.env' is added to your project. You may want to update this file manually."
-  fi
-
-  if [ ! -f $CONFIG_FILE ]; then
-      echo "'$CONFIG_FILE' not found. Generating..."
-      cp backend/config/config.py.template $CONFIG_FILE;
-      echo "'$CONFIG_FILE' is added to your project. You may want to update this file manually."
-  fi
-  dkrcmp exec node apk --no-cache add git ssh;
-  dkrcmp exec node yarn install;
-}
-
-if [[ "init" =~ "$command" ]]; then
-  init;
-elif [[ "up" =~ "$command" ]]; then
-  dkrcmp up -d;
-elif [[ "docker system dkr sys" =~ "$command" ]]; then
-  if [[ $args != "" ]]; then
-    dkrcmp $args;
-  fi
-elif [[ "exec" =~ "$command" ]]; then
-  dkrcmp exec app $args;
-elif [[ "install" =~ "$command" ]]; then
-  if [[ $args == "node" ]]; then
-    dkrcmp exec node yarn install;
-  else
-    dkrcmp exec app pip3 install -r requirements.txt;
-  fi
-elif [[ "yarn" =~ "$command" ]]; then
-  dkrcmp exec node yarn $@;
-elif [[ "logs" =~ "$command" ]]; then
-  dkrcmp logs -f $args;
-elif [[ "build" =~ "$command" ]]; then
-  build $args;
-elif [[ "watch" =~ "$command" ]]; then
-  build watch;
-elif [[ "deploy" =~ "$command" ]]; then
-  if [[ $args != "" ]]; then
-    git fetch
-    git checkout $args
-  fi
-  dkrcmp exec app pip3 install -r requirements.txt;
-  dkrcmp exec node yarn install;
-  dkrcmp exec app cmd migrate;
-  dkrcmp restart app;
-  build prod;
-else
-  if [[ $# > 1 ]]; then shift; args=$@; fi;
-  dkrcmp exec app cmd $command $args;
-fi;
+if [[ $app == "yarn" ]]; then
+    dkrcmp exec node yarn $args;
+fi

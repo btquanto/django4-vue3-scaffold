@@ -12,23 +12,6 @@ if [ "$command" == "serve" ]; then
     cd backend;
     python3 manage.py runserver "0.0.0.0:$port"
 
-elif [ "$command" == "renew-ssl" ]; then
-
-    mkdir -p /etc/nginx/ssl;
-
-    if [ ! -f /etc/nginx/ssl/server.key ]; then
-        # RSA key
-        openssl genrsa -out /etc/nginx/ssl/server.key 2048;
-    fi
-
-    if [ ! -f /etc/nginx/ssl/server.csr ]; then
-        # Certificate signing request
-        openssl req -new -key /etc/nginx/ssl/server.key -subj "/C=JP/ST=Tokyo/L=Shinjuku/O=PrimeStyle/CN=localhost" -out /etc/nginx/ssl/server.csr;
-    fi
-
-    # SSL certificate
-    openssl x509 -req -in /etc/nginx/ssl/server.csr -days 1800 -signkey /etc/nginx/ssl/server.key -out /etc/nginx/ssl/server.crt;
-
 elif [ "$command" == "status" ]; then
 
     supervisorctl status;

@@ -6,12 +6,19 @@ export class TodoItemStatus {
   static Done = "done";
 }
 
+export class TodoItemPriority {
+  static Urgent = 4;
+  static High = 3;
+  static Medium = 2;
+  static Low = 1;
+}
+
 export class TodoItem {
   constructor(data) {
     this.__uuid__ = uuid();
     this.name = "";
     this.description = "";
-    this.priority = 5;
+    this.priority = TodoItemPriority.Low;
     this.status = TodoItemStatus.InProgress;
     this.created_at = moment();
     this.updated_at = moment();

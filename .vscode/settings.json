@@ -12,6 +12,7 @@
     "**/.vscode": true,
     "**/node_modules": true,
     "**/__pycache__": true,
+    "logs": true,
     "dist": true,
   },
   "eslint.debug": true,
@@ -79,7 +80,8 @@
     "*.jsx": "${capture}.js",
     "*.tsx": "${capture}.ts",
     "tsconfig.json": "tsconfig.*.json",
-    "package.json": "package-lock.json, yarn.lock",
-    "vue.config.js": "postcss.config.js, tailwind.js, webpack-stats.json, .eslintrc.js, babel.config.js",
+    "vue.config.js": "postcss.config.js, tailwind.js, webpack-stats.json, .eslintrc.js, babel.config.js, package.json, package-lock.json, yarn.lock",
+    "_env_django": ".env_django",
+    "_env_docker": ".env_docker",
   },
 }

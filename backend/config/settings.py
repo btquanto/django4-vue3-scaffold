@@ -14,11 +14,13 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
-load_dotenv("../config/.env")
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Loading local configurations
+DJANGO_LOCAL_CONFIG = os.getenv("DJANGO_LOCAL_CONFIG", "config/.env_django")
+print(os.path.join(BASE_DIR.parent, DJANGO_LOCAL_CONFIG))
+load_dotenv(os.path.join(BASE_DIR.parent, DJANGO_LOCAL_CONFIG))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/

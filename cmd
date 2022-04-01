@@ -107,7 +107,6 @@ if [[ $app == "docker" ]]; then
   if [[ $command == "logs" && -z "$args" ]]; then
     args="-f app";
   fi
-  echo "$args"
   dkrcmp $command $args;
 fi
 

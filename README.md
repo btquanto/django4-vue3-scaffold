@@ -86,7 +86,7 @@ Initialize project's configuration files
 
     ./cmd init
 
-Edit `config/.env_docker`, `config/.env` and `backend/config/local.py` as fit.
+Edit `config/.env_docker`, `config/.env_django` and `backend/config/local.py` as fit.
 
 ## AUTO_START
 

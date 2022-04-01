@@ -50,6 +50,7 @@ services:
       - reversed_proxy
     environment:
       - DJANGO_SETTINGS_MODULE=${DJANGO_CONFIG_MODULE}
+      - DJANGO_LOCAL_CONFIG=${DJANGO_LOCAL_CONFIG}
       - AUTO_START=${AUTO_START}
     volumes:
       - ./:/src

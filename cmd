@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# cd into the script's directory
+# This allows calling the script from anywhere
+dir_path=$(dirname $(realpath $0))
+cd $dir_path;
+
 project=`basename "$(pwd)"`;
 env_docker="config/.env_docker";
 source scripts/utilities.sh;

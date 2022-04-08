@@ -24,7 +24,7 @@
           <td class="$border $px-6 $py-3 $text-left">{{ item.description }}</td>
           <td class="$border $px-6 $py-3 $text-center">{{ item.status }}</td>
           <td class="$border $px-6 $py-3 $text-center">
-            <button :title="tt('Remove')" @click="$store.dispatch('removeTodoItem', item)"><TrashIcon class="$h-6 $w-6" /></button>
+            <button :title="tt('Remove')" @click="deleteTodoItem(item)"><TrashIcon class="$h-6 $w-6" /></button>
           </td>
         </tr>
       </tbody>
@@ -46,6 +46,19 @@ export default {
   name: "TodoList",
   computed: {
     ...mapGetters(["todoItems"]),
+  },
+  created() {
+    this.$store.dispatch("fetchTodoItems", {
+      csrf_token: this.$global.csrf_token,
+    });
+  },
+  methods: {
+    deleteTodoItem(item) {
+      this.$store.dispatch("deleteTodoItem", {
+        csrf_token: this.$global.csrf_token,
+        item,
+      });
+    },
   },
 };
 </script>

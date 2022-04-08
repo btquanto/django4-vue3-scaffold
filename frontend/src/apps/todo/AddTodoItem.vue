@@ -1,7 +1,7 @@
 <template>
   <div class="$flex $flex-col $items-center">
-    <h1 class="$font-extrabold">Add Todo Item</h1>
-    <form class="$w-96 $mt-6">
+    <h1 class="$font-extrabold">{{ tt("Add Todo Item") }}</h1>
+    <div class="$w-96 $mt-6">
       <div class="$relative $z-0 $mb-6 $w-full $group">
         <input
           v-model="form.name"
@@ -14,6 +14,21 @@
           for="name"
           class="$absolute $text-sm $text-gray-500 $duration-300 $transform $-translate-y-6 $scale-75 $top-3 $-z-10 $origin-[0] peer-focus:$left-0 peer-focus:$text-cyan-600 peer-placeholder-shown:$scale-100 peer-placeholder-shown:$translate-y-0 peer-focus:$scale-75 peer-focus:$-translate-y-6"
           >{{ tt("Task Name") }}</label
+        >
+      </div>
+      <div class="$relative $z-0 $mb-6 $w-full $group">
+        <select
+          v-model="form.priority"
+          name="priority"
+          class="$block $py-2.5 $px-0 $w-full $text-sm $text-gray-900 $bg-transparent $border-0 $border-b-2 $border-gray-300 $appearance-none focus:$outline-none focus:$ring-0 focus:$border-cyan-600 $peer"
+          placeholder=" "
+          required>
+          <option v-for="(value, key) in PRIORITIES" :key="key" :value="value" class="$p-4">{{ key }}</option>
+        </select>
+        <label
+          for="priority"
+          class="$absolute $text-sm $text-gray-500 $duration-300 $transform $-translate-y-6 $scale-75 $top-3 $-z-10 $origin-[0] peer-focus:$left-0 peer-focus:$text-cyan-600 peer-placeholder-shown:$scale-100 peer-placeholder-shown:$translate-y-0 peer-focus:$scale-75 peer-focus:$-translate-y-6"
+          >{{ tt("Task Priority") }}</label
         >
       </div>
       <div class="$relative $z-0 $mb-6 $w-full $group">
@@ -41,13 +56,17 @@
           {{ tt("Submit") }}
         </button>
       </div>
-    </form>
+    </div>
   </div>
 </template>
 
 <script setup>
 import "@/assets/css/tailwind.css";
+import { ref } from "vue";
 import { assign } from "@/utils/Objects";
+import { TodoItemPriority } from "./models/todo";
+
+const PRIORITIES = ref(Object.fromEntries(Object.entries(TodoItemPriority)));
 </script>
 
 <script>
@@ -55,7 +74,16 @@ class TodoItemForm {
   constructor(data) {
     this.name = "";
     this.description = "";
+    this.priority = 1;
     assign(this, data);
+  }
+
+  formData() {
+    const form = new FormData();
+    form.append("name", this.name);
+    form.append("description", this.description);
+    form.append("priority", this.priority);
+    return form;
   }
 }
 export default {
@@ -70,9 +98,17 @@ export default {
   },
   methods: {
     addTodoItem() {
-      this.$store.dispatch("addTodoItem", this.form);
-      this.form = new TodoItemForm();
-      this.$router.go(-1);
+      this.$store
+        .dispatch("addTodoItem", {
+          csrf_token: this.$global.csrf_token,
+          formData: this.form.formData(),
+        })
+        .then(([res, _]) => {
+          if (res.success) {
+            this.form = new TodoItemForm();
+            this.$router.go(-1);
+          }
+        });
     },
   },
 };

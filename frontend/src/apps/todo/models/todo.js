@@ -16,6 +16,7 @@ export class TodoItemPriority {
 export class TodoItem {
   constructor(data) {
     this.__uuid__ = uuid();
+    this.id = null;
     this.name = "";
     this.description = "";
     this.priority = TodoItemPriority.Low;

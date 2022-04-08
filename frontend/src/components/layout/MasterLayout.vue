@@ -31,6 +31,9 @@ export default {
     FooterBar,
     RouterView,
   },
+  mounted() {
+    document.title = this.$context.$title;
+  },
 };
 </script>
 

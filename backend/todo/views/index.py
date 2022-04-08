@@ -2,6 +2,7 @@
 # Framework-level imports
 from django.http import Http404, HttpResponseNotAllowed, JsonResponse
 from django.views.generic import TemplateView
+from django.utils.translation import gettext as _
 
 # Project-level imports
 from core.utils.proxy import deproxify
@@ -19,7 +20,7 @@ class Index(TemplateView):
         context = super().get_context_data(**kwargs)
         context['bundle'] = 'todo_index'
         context['$context'] = {
-            'message': "Hello World 123"
+            '$title': _('Vue App')
         }
         return context
 

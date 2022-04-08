@@ -146,5 +146,7 @@ if [[ $app == "node" ]]; then
 fi
 
 if [[ $app == "yarn" ]]; then
-    dkrcmp exec node yarn $args;
+    echo "$command"
+    echo "$args"
+    dkrcmp exec node yarn $command $args;
 fi

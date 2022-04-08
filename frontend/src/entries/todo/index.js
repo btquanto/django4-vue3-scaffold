@@ -10,13 +10,11 @@ import MasterLayout from "@/components/layout/MasterLayout.vue";
 import TodoList from "@/apps/todo/TodoList.vue";
 import AddTodoItem from "@/apps/todo/AddTodoItem.vue";
 import EditTodoItem from "@/apps/todo/EditTodoItem.vue";
-import TodoItemDetail from "@/apps/todo/TodoItemDetail.vue";
 
 const routes = [
   { path: "/", component: TodoList },
   { path: "/add", component: AddTodoItem },
   { path: "/edit/:id", component: EditTodoItem },
-  { path: "/details", component: TodoItemDetail },
 ];
 
 const router = createRouter({

@@ -4,7 +4,14 @@
     <div class="$w-96 $mt-6">
       <text-field v-model="form.name" :label="tt('Task Name')" name="name" class="$w-full $mb-6" />
       <select-field v-model="form.priority" :label="tt('Task Priority')" name="priority" class="$w-full $mb-6" :options="TodoItemPriorities" :get-label="PriorityText" />
-      <select-field v-model="form.status" :label="tt('Task Status')" name="priority" class="$w-full $mb-6" :options="TodoItemStatuses" :get-label="StatusText" />
+      <select-field
+        v-if="mode == 'update'"
+        v-model="form.status"
+        :label="tt('Task Status')"
+        name="priority"
+        class="$w-full $mb-6"
+        :options="TodoItemStatuses"
+        :get-label="StatusText" />
       <text-area-field v-model="form.description" :label="tt('Task Description')" name="description" class="$w-full $mb-6" />
       <div class="$flex $flex-row $justify-around">
         <form-button type="cancel" :label="tt('Cancel')" @click="$router.go(-1)" />

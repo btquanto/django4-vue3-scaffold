@@ -15,3 +15,11 @@ class AddTodoItemForm(TodoItemFormMixin, forms.ModelForm):
     class Meta:
         model = TodoItem
         fields = ("name", "description", "priority")
+
+
+
+class UpdateTodoItemForm(TodoItemFormMixin, forms.ModelForm):
+
+    class Meta:
+        model = TodoItem
+        fields = ("name", "description", "priority", "status")

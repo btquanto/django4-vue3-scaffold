@@ -61,6 +61,27 @@ const actions = {
     }
     return [res, error];
   },
+  updateTodoItem: async ({ commit }, data) => {
+    const csrf_token = data.csrf_token;
+    const item = data.item;
+    const formData = data.formData;
+    const [res, error] = await $fetch(`/todo/api/todo-item/update/${item.id}`, {
+      method: "post",
+      headers: {
+        "X-CSRFToken": csrf_token,
+      },
+      body: formData,
+    });
+    if (res) {
+      if (res.success) {
+        const item = new TodoItem(res.data);
+        commit("updateTodoItem", item);
+      } else {
+        commit("setFormErrors", res.errors);
+      }
+    }
+    return [res, error];
+  },
 };
 
 const mutations = {
@@ -71,9 +92,15 @@ const mutations = {
     state.todoItems.push(item);
   },
   deleteTodoItem: (state, item) => {
-    const idx = state.todoItems.findIndex((obj) => obj == item);
+    const idx = state.todoItems.findIndex((obj) => obj.id == item.id);
     if (idx >= 0) {
       state.todoItems.splice(idx, 1);
+    }
+  },
+  updateTodoItem: (state, item) => {
+    const idx = state.todoItems.findIndex((obj) => obj.id == item.id);
+    if (idx >= 0) {
+      state.todoItems.splice(idx, 1, item);
     }
   },
   setFormErrors: (state, errors) => {

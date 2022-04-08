@@ -19,7 +19,6 @@
 </template>
 
 <script setup>
-import "@/assets/css/tailwind.css";
 import { ref } from "vue";
 import { mapGetters } from "vuex";
 import { gettext } from "@/utils/i18n";

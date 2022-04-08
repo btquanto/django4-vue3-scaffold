@@ -7,8 +7,6 @@
 </template>
 
 <script>
-import "@/assets/css/tailwind.css";
-
 import { MenuIcon } from "@heroicons/vue/solid";
 
 export default {

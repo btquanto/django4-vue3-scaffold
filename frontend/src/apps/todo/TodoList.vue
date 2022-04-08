@@ -40,7 +40,6 @@
   </div>
 </template>
 <script setup>
-import "@/assets/css/tailwind.css";
 import { mapGetters } from "vuex";
 import { TrashIcon, PlusIcon, PencilAltIcon } from "@heroicons/vue/solid";
 import { PriorityText, StatusText } from "./models/refs";

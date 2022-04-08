@@ -10,7 +10,6 @@
 </template>
 
 <script setup>
-import "@/assets/css/tailwind.css";
 import { ref } from "vue";
 import { gettext } from "@/utils/i18n";
 
@@ -22,8 +21,6 @@ const footerLinks = ref([
 ]);
 </script>
 <script>
-import "@/assets/css/tailwind.css";
-
 export default {
   name: "FooterBar",
 };

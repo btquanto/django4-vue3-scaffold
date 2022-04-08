@@ -24,7 +24,7 @@ class DefaultMiddleware:
                 '$i18n': {
                     'language_code': request.session.get('language', settings.LANGUAGE_CODE),
                 },
-                "$csrf_token": get_csrf_token(request)
+                "csrf_token": get_csrf_token(request)
             }
         })
 

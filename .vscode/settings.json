@@ -84,4 +84,5 @@
     "_env_django": ".env_django",
     "_env_docker": ".env_docker",
   },
+  "python.envFile": "${workspaceFolder}/.vscode/.env",
 }

@@ -1,8 +1,5 @@
 [MASTER]
 
-# Run pylint as-if it's running from the backend folder
-init-hook='import sys; sys.path.append("backend")' 
-
 # Disabled rules
 disable=
     C0114, # missing-module-docstring

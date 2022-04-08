@@ -5,8 +5,9 @@
         <col class="$w-10" />
         <col class="$w-64" />
         <col class="" />
-        <col class="$w-40" />
-        <col class="$w-40" />
+        <col class="$w-36" />
+        <col class="$w-36" />
+        <col class="$w-36" />
       </colgroup>
       <thead class="$text-grey-700 $bg-gray-100 $uppercase">
         <tr>

@@ -50,7 +50,7 @@ if [[ $app == "app" ]]; then
   if [[ $command == "exec" ]]; then
     dkrcmp exec app $args;
   elif [[ $command == "pip-install" ]]; then
-    dkrcmp exec app apt install -y gettext;
+    dkrcmp exec app sh /src/scripts/apt-install.sh gettext;
     if [[ -z "$args" ]]; then
       dkrcmp exec app pip3 install -r requirements.txt;
     else
@@ -65,18 +65,16 @@ fi
 
 if [[ $app == "node" ]]; then
   if [[ $command == "install" ]]; then
-      if [[ -z "$args" ]]; then
-        dkrcmp exec node apk --no-cache add git;
-      else
-        dkrcmp exec node sh /src/scripts/apk-install.sh $args;
-      fi
+    dkrcmp exec node sh /src/scripts/apk-install.sh $args;
   else
     dkrcmp exec node $command $args;
   fi
 fi
 
 if [[ $app == "yarn" ]]; then
-    echo "$command"
-    echo "$args"
+    dkrcmp exec node sh /src/scripts/apk-install.sh git;
+    if [[ $command == "install" ]]; then
+      dkrcmp exec node sh /src/scripts/apk-install.sh git;
+    fi
     dkrcmp exec node yarn $command $args;
 fi

@@ -9,6 +9,9 @@ project=`basename "$(pwd)"`;
 env_docker="config/.env_docker";
 source scripts/utilities.sh;
 
+app_deps="$(cat packages-app.txt | tr -s '\n' ' ')"
+node_deps="$(cat packages-node.txt | tr -s '\n' ' ')"
+
 if (( $# > 0 )); then app=$1; fi
 
 if [[ -z $app ]] || [[ ! "yarn app node docker init" =~ $app ]]; then
@@ -50,7 +53,9 @@ if [[ $app == "app" ]]; then
   if [[ $command == "exec" ]]; then
     dkrcmp exec app $args;
   elif [[ $command == "pip-install" ]]; then
-    dkrcmp exec app sh /src/scripts/apt-install.sh gettext;
+    if [[ ! -z $app_deps ]]; then
+      dkrcmp exec app sh /src/scripts/apt-install.sh $app_deps;
+    fi
     if [[ -z "$args" ]]; then
       dkrcmp exec app pip3 install -r requirements.txt;
     else
@@ -73,8 +78,8 @@ fi
 
 if [[ $app == "yarn" ]]; then
     dkrcmp exec node sh /src/scripts/apk-install.sh git;
-    if [[ $command == "install" ]]; then
-      dkrcmp exec node sh /src/scripts/apk-install.sh git;
+    if [[ $command == "install" && ! -z $node_deps ]]; then
+      dkrcmp exec node sh /src/scripts/apk-install.sh $node_deps;
     fi
     dkrcmp exec node yarn $command $args;
 fi

@@ -83,6 +83,7 @@
     "vue.config.js": "postcss.config.js, tailwind.js, webpack-stats.json, .eslintrc.js, babel.config.js, package.json, package-lock.json, yarn.lock",
     "_env_django": ".env_django",
     "_env_docker": ".env_docker",
+    "requirements.txt": "packages-app.txt, packages-node.txt",
   },
   "python.envFile": "${workspaceFolder}/.vscode/.env",
 }

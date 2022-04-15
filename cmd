@@ -9,82 +9,10 @@ project=`basename "$(pwd)"`;
 env_docker="config/.env_docker";
 source scripts/utilities.sh;
 
-read -r -d '' help <<-EOF
-  Help: ./cmd [init|app|yarn|docker] <command> <arguments>
-
-# 'init' module
-
-  ./cmd init
-
-  Inititialize the project. This will generate local configuration files necessary to run the project.
-  Basically, we would run this once at the beginning of the project.
-
-# 'app' module
-
-  ./cmd app <command> <arguments>
-
-  ## Example
-
-    ./cmd app install -U pip # Upgrade pip requirements
-
-  ## Commands
-
-    install <arguments>:
-      Calling 'pip3 install <arguments>'.
-      If no <arguments> is provided, default to calling 'pip3 install -r requirements.txt'
-      
-    exec    : exec the command specified in <arguments>
-    
-    serve <port>  : Run the application in debug mode.
-                    If no port is specified, it will default to port 8000
-
-    [start|stop|restart|status] <supervisor service> : 
-              Start/Stop/Restart/Checking Status supervisor services.
-              If no services are specified, all services are selected.
-
-    [migrate|makemigrations|showmigrations|makemessages|compilemessages|...] <arguments> :
-              django_admin commands.
-
-
-# 'yarn' module
-
-  ./cmd yarn <command> <arguments>
-
-  Calling yarn commands
-
-  ## Commands
-
-    serve   : Serve front-end in development mode and watch for changes
-    dev     : Build front-end in development mode
-    build   : Build front-end in production mode
-    lint    : Run linting
-
-
-# 'node' module
-
-  ./cmd node <command> <arguments>
-
-  Executing commands in node container
-
-  ## Commands
-
-    install   : Calling 'apk --no-cache add <arguments>'
-                If no <arguments> are specified, install 'git ssh'
-  
-# 'docker' module
-
-  ./cmd docker <command> <arguments>
-
-  Shortcut for calling 
-  
-    docker-compose --env-file /path/to/env/file -p <project_name> <command> <arguments>
-
-EOF
-
 if (( $# > 0 )); then app=$1; fi
 
 if [[ -z $app ]] || [[ ! "yarn app node docker init" =~ $app ]]; then
-  printf "$help\n";
+  print_help;
   exit 0;
 fi
 
@@ -121,13 +49,15 @@ if [[ $app == "app" ]]; then
   fi
   if [[ $command == "exec" ]]; then
     dkrcmp exec app $args;
-  elif [[ $command == "install" ]]; then
+  elif [[ $command == "pip-install" ]]; then
+    dkrcmp exec app apt install -y gettext;
     if [[ -z "$args" ]]; then
       dkrcmp exec app pip3 install -r requirements.txt;
-
     else
-      dkrcmp exec app pip3 $command $args
+      dkrcmp exec app pip3 install $args
     fi
+  elif [[ $command == "install" ]]; then
+    dkrcmp exec app sh /src/scripts/apt-install.sh $args;
   else
     dkrcmp exec app cmd $command $args;
   fi
@@ -138,7 +68,7 @@ if [[ $app == "node" ]]; then
       if [[ -z "$args" ]]; then
         dkrcmp exec node apk --no-cache add git;
       else
-        dkrcmp exec node apk --no-cache add $args;
+        dkrcmp exec node sh /src/scripts/apk-install.sh $args;
       fi
   else
     dkrcmp exec node $command $args;

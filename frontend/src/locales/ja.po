@@ -1,0 +1,91 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Project-Id-Version: PACKAGE VERSION\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: frontend/src/apps/todo/TodoList.vue:19
+msgid "Action"
+msgstr ""
+
+#: frontend/src/apps/todo/TodoList.vue:39
+msgid "Add"
+msgstr ""
+
+#: frontend/src/apps/todo/TodoItemForm.vue:3
+msgid "Add Todo Item"
+msgstr ""
+
+#: frontend/src/apps/todo/TodoItemForm.vue:17
+msgid "Cancel"
+msgstr ""
+
+#: frontend/src/apps/todo/TodoList.vue:31
+msgid "Delete"
+msgstr ""
+
+#: frontend/src/apps/todo/TodoList.vue:16
+msgid "Description"
+msgstr ""
+
+#: frontend/src/apps/todo/models/todo.js:9
+msgid "Done"
+msgstr ""
+
+#: frontend/src/apps/todo/TodoList.vue:30
+msgid "Edit"
+msgstr ""
+
+#: frontend/src/apps/todo/models/todo.js:18
+msgid "High"
+msgstr ""
+
+#: frontend/src/apps/todo/models/todo.js:8
+msgid "In Progress"
+msgstr ""
+
+#: frontend/src/apps/todo/models/todo.js:20
+msgid "Low"
+msgstr ""
+
+#: frontend/src/apps/todo/models/todo.js:19
+msgid "Medium"
+msgstr ""
+
+#: frontend/src/apps/todo/TodoList.vue:17
+msgid "Priority"
+msgstr ""
+
+#: frontend/src/apps/todo/TodoList.vue:18
+msgid "Status"
+msgstr ""
+
+#: frontend/src/apps/todo/TodoItemForm.vue:18
+msgid "Submit"
+msgstr ""
+
+#: frontend/src/apps/todo/TodoItemForm.vue:15
+msgid "Task Description"
+msgstr ""
+
+#: frontend/src/apps/todo/TodoItemForm.vue:5
+#: frontend/src/apps/todo/TodoList.vue:15
+msgid "Task Name"
+msgstr ""
+
+#: frontend/src/apps/todo/TodoItemForm.vue:6
+msgid "Task Priority"
+msgstr ""
+
+#: frontend/src/apps/todo/TodoItemForm.vue:10
+msgid "Task Status"
+msgstr ""
+
+#: frontend/src/apps/todo/models/todo.js:17
+msgid "Urgent"
+msgstr ""

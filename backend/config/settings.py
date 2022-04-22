@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+from django.utils.translation import gettext_lazy as _
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -48,6 +49,7 @@ INSTALLED_APPS = [
     # Third-party apps
     'webpack_loader',
     # Local apps
+    'common',
     'todo',
 ]
 
@@ -132,9 +134,16 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
+LANGUAGES = (
+    ('en', _('English')),
+    ('ja', _('Japanese')),
+)
+
 LANGUAGE_CODE = os.getenv('LANGUAGE_CODE', 'en')
 
 TIME_ZONE = os.getenv('TIME_ZONE', 'Asia/Ho_Chi_Minh')
+
+LOCALE_PATHS = [ os.path.join(BASE_DIR, 'locales') ]
 
 USE_I18N = True
 

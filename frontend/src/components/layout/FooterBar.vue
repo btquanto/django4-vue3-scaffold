@@ -11,13 +11,13 @@
 
 <script setup>
 import { ref } from "vue";
-import { gettext } from "@/utils/i18n";
+import { $gettext } from "@/utils/i18n";
 
 const footerLinks = ref([
-  { href: "#", name: gettext("About") },
-  { href: "#", name: gettext("Privacy Policy") },
-  { href: "#", name: gettext("Licensing") },
-  { href: "#", name: gettext("Contact") },
+  { href: "#", name: $gettext("About") },
+  { href: "#", name: $gettext("Privacy Policy") },
+  { href: "#", name: $gettext("Licensing") },
+  { href: "#", name: $gettext("Contact") },
 ]);
 </script>
 <script>

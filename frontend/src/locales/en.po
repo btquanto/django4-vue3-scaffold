@@ -1,0 +1,91 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Project-Id-Version: PACKAGE VERSION\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: frontend/src/apps/todo/TodoList.vue:19
+msgid "Action"
+msgstr "Action"
+
+#: frontend/src/apps/todo/TodoList.vue:39
+msgid "Add"
+msgstr "Add"
+
+#: frontend/src/apps/todo/TodoItemForm.vue:3
+msgid "Add Todo Item"
+msgstr "Add Todo Item"
+
+#: frontend/src/apps/todo/TodoItemForm.vue:17
+msgid "Cancel"
+msgstr "Cancel"
+
+#: frontend/src/apps/todo/TodoList.vue:31
+msgid "Delete"
+msgstr "Delete"
+
+#: frontend/src/apps/todo/TodoList.vue:16
+msgid "Description"
+msgstr "Description"
+
+#: frontend/src/apps/todo/models/todo.js:9
+msgid "Done"
+msgstr "Done"
+
+#: frontend/src/apps/todo/TodoList.vue:30
+msgid "Edit"
+msgstr "Edit"
+
+#: frontend/src/apps/todo/models/todo.js:18
+msgid "High"
+msgstr "High"
+
+#: frontend/src/apps/todo/models/todo.js:8
+msgid "In Progress"
+msgstr "In Progress"
+
+#: frontend/src/apps/todo/models/todo.js:20
+msgid "Low"
+msgstr "Low"
+
+#: frontend/src/apps/todo/models/todo.js:19
+msgid "Medium"
+msgstr "Medium"
+
+#: frontend/src/apps/todo/TodoList.vue:17
+msgid "Priority"
+msgstr "Priority"
+
+#: frontend/src/apps/todo/TodoList.vue:18
+msgid "Status"
+msgstr "Status"
+
+#: frontend/src/apps/todo/TodoItemForm.vue:18
+msgid "Submit"
+msgstr "Submit"
+
+#: frontend/src/apps/todo/TodoItemForm.vue:15
+msgid "Task Description"
+msgstr "Task Description"
+
+#: frontend/src/apps/todo/TodoItemForm.vue:5
+#: frontend/src/apps/todo/TodoList.vue:15
+msgid "Task Name"
+msgstr "Task Name"
+
+#: frontend/src/apps/todo/TodoItemForm.vue:6
+msgid "Task Priority"
+msgstr "Task Priority"
+
+#: frontend/src/apps/todo/TodoItemForm.vue:10
+msgid "Task Status"
+msgstr "Task Status"
+
+#: frontend/src/apps/todo/models/todo.js:17
+msgid "Urgent"
+msgstr "Urgent"

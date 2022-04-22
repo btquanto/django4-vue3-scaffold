@@ -1,0 +1,66 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-04-22 13:44+0700\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+#: config/middlewares/default.py:23
+msgid "Django App"
+msgstr ""
+
+#: config/settings.py:138
+msgid "English"
+msgstr ""
+
+#: config/settings.py:139
+msgid "Japanese"
+msgstr ""
+
+#: todo/models/todo.py:10
+msgid "Urgent"
+msgstr ""
+
+#: todo/models/todo.py:11
+msgid "High"
+msgstr ""
+
+#: todo/models/todo.py:12
+msgid "Medium"
+msgstr ""
+
+#: todo/models/todo.py:13
+msgid "Low"
+msgstr ""
+
+#: todo/models/todo.py:17
+msgid "In Progress"
+msgstr ""
+
+#: todo/models/todo.py:18
+msgid "Done"
+msgstr ""
+
+#: todo/models/todo.py:30
+msgid "Todo Item"
+msgstr ""
+
+#: todo/models/todo.py:31
+msgid "Todo Items"
+msgstr ""
+
+#: todo/views/index.py:23
+msgid "Vue App"
+msgstr ""

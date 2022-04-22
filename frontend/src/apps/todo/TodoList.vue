@@ -12,11 +12,11 @@
       <thead class="$text-grey-700 $bg-gray-100 $uppercase">
         <tr>
           <th scope="col" class="$border $px-6 $py-3"></th>
-          <th scope="col" class="$border $px-6 $py-3">{{ tt("Task Name") }}</th>
-          <th scope="col" class="$border $px-6 $py-3">{{ tt("Description") }}</th>
-          <th scope="col" class="$border $px-6 $py-3">{{ tt("Priority") }}</th>
-          <th scope="col" class="$border $px-6 $py-3">{{ tt("Status") }}</th>
-          <th scope="col" class="$border $px-6 $py-3">{{ tt("Action") }}</th>
+          <th scope="col" class="$border $px-6 $py-3">{{ $gettext("Task Name") }}</th>
+          <th scope="col" class="$border $px-6 $py-3">{{ $gettext("Description") }}</th>
+          <th scope="col" class="$border $px-6 $py-3">{{ $gettext("Priority") }}</th>
+          <th scope="col" class="$border $px-6 $py-3">{{ $gettext("Status") }}</th>
+          <th scope="col" class="$border $px-6 $py-3">{{ $gettext("Action") }}</th>
         </tr>
       </thead>
       <tbody>
@@ -27,8 +27,8 @@
           <td class="$border $px-6 $py-3 $text-center">{{ PriorityText(item.priority) }}</td>
           <td class="$border $px-6 $py-3 $text-center">{{ StatusText(item.status) }}</td>
           <td class="$border $px-6 $py-3 $text-center">
-            <button :title="tt('Edit')" @click="$router.push(`/edit/${item.id}`)"><PencilAltIcon class="$h-6 $w-6 $mr-4" /></button>
-            <button :title="tt('Delete')" @click="deleteTodoItem(item)"><TrashIcon class="$h-6 $w-6" /></button>
+            <button :title="$gettext('Edit')" @click="$router.push(`/edit/${item.id}`)"><PencilAltIcon class="$h-6 $w-6 $mr-4" /></button>
+            <button :title="$gettext('Delete')" @click="deleteTodoItem(item)"><TrashIcon class="$h-6 $w-6" /></button>
           </td>
         </tr>
       </tbody>
@@ -36,7 +36,7 @@
   </div>
   <div class="$mt-4 $w-full $flex $flex-row $justify-end">
     <button class="$flex $flex-row $items-center $px-3 $py-1 $bg-cyan-600 hover:$bg-cyan-700 $rounded-full $text-white $w-max" @click="$router.push('/add')">
-      <PlusIcon class="$h-4 $w-4" /> <span class="$ml-1">{{ tt("Add") }}</span>
+      <PlusIcon class="$h-4 $w-4" /> <span class="$ml-1">{{ $gettext("Add") }}</span>
     </button>
   </div>
 </template>

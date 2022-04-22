@@ -21,17 +21,17 @@
 <script setup>
 import { ref } from "vue";
 import { mapGetters } from "vuex";
-import { gettext } from "@/utils/i18n";
+import { $gettext } from "@/utils/i18n";
 
 import { AcademicCapIcon, HomeIcon, UserGroupIcon, FolderIcon, CalendarIcon, DocumentDuplicateIcon, DocumentReportIcon } from "@heroicons/vue/solid";
 
 const navLinks = ref([
-  { icon: HomeIcon, href: "#", name: gettext("Dashboard") },
-  { icon: UserGroupIcon, href: "#", name: gettext("Team") },
-  { icon: FolderIcon, href: "#", name: gettext("Projects") },
-  { icon: CalendarIcon, href: "#", name: gettext("Calendar") },
-  { icon: DocumentDuplicateIcon, href: "#", name: gettext("Documents") },
-  { icon: DocumentReportIcon, href: "#", name: gettext("Reports") },
+  { icon: HomeIcon, href: "#", name: $gettext("Dashboard") },
+  { icon: UserGroupIcon, href: "#", name: $gettext("Team") },
+  { icon: FolderIcon, href: "#", name: $gettext("Projects") },
+  { icon: CalendarIcon, href: "#", name: $gettext("Calendar") },
+  { icon: DocumentDuplicateIcon, href: "#", name: $gettext("Documents") },
+  { icon: DocumentReportIcon, href: "#", name: $gettext("Reports") },
 ]);
 </script>
 

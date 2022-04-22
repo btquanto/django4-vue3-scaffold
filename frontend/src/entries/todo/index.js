@@ -3,6 +3,7 @@ import { Store } from "vuex";
 import { createRouter, createWebHashHistory } from "vue-router";
 
 import common from "@/utils/plugins/common";
+import gettext from "@/utils/i18n";
 import layout from "@/modules/layout";
 import todo from "@/apps/todo/modules/todo";
 
@@ -29,6 +30,7 @@ const store = new Store({
 });
 
 const app = createApp(MasterLayout);
+app.use(gettext);
 app.use(router);
 app.use(store);
 app.use(common);

@@ -63,10 +63,12 @@ if [[ ".$0" == ".$BASH_SOURCE" ]]; then
         dkrcmp exec app bash /src/scripts/pip-install.sh $args;
       fi
     elif [[ $command == "install" ]]; then
+      U_ID="$(id -u root)";
+      G_ID="$(id -g root)";
       if [[ -z "$args" ]] && [[ ! -z $app_deps ]]; then
-        dkrcmp exec app bash /src/scripts/apt-install.sh $app_deps;
+        U_ID=$U_ID G_ID=$G_ID dkrcmp exec --user $U_ID app bash /src/scripts/apt-install.sh $app_deps;
       elif [[ -z "$args" ]]; then
-        dkrcmp exec app bash /src/scripts/apt-install.sh $args;
+        U_ID=$U_ID G_ID=$G_ID dkrcmp exec --user $U_ID app bash /src/scripts/apt-install.sh $args;
       fi
     else
       dkrcmp exec app cmd $command $args;
@@ -82,7 +84,6 @@ if [[ ".$0" == ".$BASH_SOURCE" ]]; then
   fi
 
   if [[ $app == "yarn" ]]; then
-      dkrcmp exec node sh /src/scripts/apk-install.sh git;
       if [[ $command == "install" && ! -z $node_deps ]]; then
         dkrcmp exec node sh /src/scripts/apk-install.sh $node_deps;
       fi

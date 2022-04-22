@@ -1,6 +1,6 @@
 function dkrcmp() {
   echo "docker-compose --env-file $env_docker -p $project $@";
-  docker-compose --env-file $env_docker -p $project $@;
+  DOCKER_USER="$(id -u):$(id -g)" docker-compose --env-file $env_docker -p $project $@;
 }
 
 function build() {

@@ -16,7 +16,7 @@ if [[ ".$0" == ".$BASH_SOURCE" ]]; then
 
   source scripts/utilities.sh;
 
-  if (( $# > 0 )); then app=$1; fi
+  if [ $# -gt 0 ]; then app=$1; fi
 
   if [[ -z $app ]] || [[ ! "yarn app node docker init" =~ $app ]]; then
     print_help;
@@ -24,7 +24,7 @@ if [[ ".$0" == ".$BASH_SOURCE" ]]; then
   fi
 
   command=""
-  if (($# > 1)); then command=$2; fi;
+  if [ $# -gt 1 ]; then command=$2; fi;
 
   shift 2;
 
@@ -57,16 +57,17 @@ if [[ ".$0" == ".$BASH_SOURCE" ]]; then
     if [[ $command == "exec" ]]; then
       dkrcmp exec app $args;
     elif [[ $command == "pip-install" ]]; then
-      if [[ ! -z $app_deps ]]; then
-        dkrcmp exec app sh /src/scripts/apt-install.sh $app_deps;
-      fi
       if [[ -z "$args" ]]; then
-        dkrcmp exec app pip3 install -r requirements.txt;
+        dkrcmp exec app bash /src/scripts/pip-install.sh;
       else
-        dkrcmp exec app pip3 install $args
+        dkrcmp exec app bash /src/scripts/pip-install.sh $args;
       fi
     elif [[ $command == "install" ]]; then
-      dkrcmp exec app sh /src/scripts/apt-install.sh $args;
+      if [[ -z "$args" ]] && [[ ! -z $app_deps ]]; then
+        dkrcmp exec app bash /src/scripts/apt-install.sh $app_deps;
+      elif [[ -z "$args" ]]; then
+        dkrcmp exec app bash /src/scripts/apt-install.sh $args;
+      fi
     else
       dkrcmp exec app cmd $command $args;
     fi

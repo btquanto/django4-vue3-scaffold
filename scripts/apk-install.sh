@@ -30,6 +30,11 @@ done;
 
 if [ ! -z "$deps" ]
 then
+  apk update;
+fi
+
+if [ ! -z "$deps" ]
+then
   echo "Installing packages: '$deps'";
-  apk --no-cache add $deps;
+  apk --update add $deps;
 fi

@@ -2,8 +2,6 @@ version: '3.8'
 
 volumes:
   database:
-  wheeldir:
-  ssl:
 
 networks:
   database:
@@ -35,6 +33,7 @@ services:
       - ./frontend/src/assets:/frontend/assets
       - ./config/nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
   node:
+    user: ${DOCKER_USER}
     image: node:17-alpine3.14
     # restart: always
     working_dir: /src
@@ -42,6 +41,7 @@ services:
       - ./:/src
     command: ["sleep", "infinity"]
   app:
+    user: ${DOCKER_USER}
     image: python:3.9-bullseye
     # restart: always
     working_dir: /src
@@ -56,5 +56,4 @@ services:
       - ./:/src
       - ./scripts/command.sh:/usr/bin/cmd:ro
       - ./config/supervisor:/etc/supervisor
-      - wheeldir:/wheeldir
     entrypoint: [/src/scripts/start.sh]

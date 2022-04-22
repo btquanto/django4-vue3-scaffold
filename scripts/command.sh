@@ -4,6 +4,12 @@ cd /src;
 
 command="serve"
 
+if [ ! -d ".venv" ]; then
+    python -m venv .venv;
+fi
+
+. .venv/bin/activate;
+
 if [ $# -gt 0 ]; then command=$1; fi
 
 if [ "$command" == "serve" ]; then

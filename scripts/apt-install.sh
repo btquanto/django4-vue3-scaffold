@@ -1,6 +1,3 @@
-dir_path=$(dirname $(realpath $0))
-cd $dir_path;
-
 check_package_installed() {
   result=`dpkg-query -W -f '${Status}\n' $@ 2>&1 | grep 'install ok installed'`;
   return $?;

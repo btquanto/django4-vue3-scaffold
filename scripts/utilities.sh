@@ -1,6 +1,6 @@
 function dkrcmp() {
-  if [ -z U_ID ]; then USER_ID="$(id -u)"; fi;
-  if [ -z G_ID ]; then USER_ID="$(id -g)"; fi;
+  if [ -z $U_ID ]; then U_ID="$(id -u)"; fi;
+  if [ -z $G_ID ]; then G_ID="$(id -g)"; fi;
 
   DOCKER_USER="$U_ID:$G_ID";
   echo "DOCKER_USER=$DOCKER_USER docker-compose --env-file $env_docker -p $project $@;";

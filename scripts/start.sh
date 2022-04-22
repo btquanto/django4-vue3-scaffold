@@ -6,8 +6,8 @@ export PIP_CACHE_DIR="/src/.cache/.pip";
 set -u;
 cd /src
 
-[ ! -d $HOME ] || mkdir -p $HOME;
-[ ! -d $PIP_CACHE_DIR ] || mkdir -p $PIP_CACHE_DIR;
+if [ ! -d $HOME ]; then mkdir -p $HOME; fi;
+if [ ! -d $PIP_CACHE_DIR ]; then mkdir -p $PIP_CACHE_DIR; fi;
 
 export PATH=/src/.cache/home/.local/bin:$PATH;
 
@@ -19,6 +19,26 @@ if [ ! -d ".venv" ]; then
 fi
 
 . .venv/bin/activate;
+
+read -r -d '' CODE << EOM
+import pkg_resources
+
+dependencies = [ 'wheel' ]
+try:
+    pkg_resources.require(dependencies)
+    exit(0)
+except Exception as ex:
+    import traceback
+    print(ex)
+    exit(1)
+EOM
+
+python3 -c "$CODE"
+
+if [ ! $? -eq 0 ]; then
+    echo "Installing wheel";
+    bash scripts/pip-install.sh wheel;
+fi
 
 read -r -d '' CODE << EOM
 import pkg_resources
@@ -42,15 +62,15 @@ else
     if [ -f $REQUIREMENTS ]; then
         echo "Installing missing dependencies";
         # Upgrade pip
-        pip3 install -U pip;
+        bash scripts/pip-install.sh -U pip;
         # Install requirements
-        pip3 install -r $REQUIREMENTS;
+        bash scripts/pip-install.sh;
         echo "All dependencies are installed";
     fi;
 fi
 
 # Services
-supervisord
+supervisord;
 
-echo "Server started..."
+echo "Server started...";
 sleep infinity;

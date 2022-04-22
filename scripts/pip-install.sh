@@ -1,6 +1,7 @@
 #!/bin/bash
 
 export HOME="/src/.cache/home";
+export WHEELDIR="/src/.cache/.wheel";
 export REQUIREMENTS="requirements.txt";
 export PIP_CACHE_DIR="/src/.cache/.pip";
 
@@ -12,11 +13,6 @@ cd /src
 
 export PATH=/src/.cache/home/.local/bin:$PATH;
 
-echo "$HOME";
-echo "$REQUIREMENTS";
-echo "$PATH";
-echo "$PIP_CACHE_DIR";
-
 if [ ! -d ".venv" ]; then
     python -m venv .venv;
 fi
@@ -24,7 +20,8 @@ fi
 source .venv/bin/activate;
 
 if [ $# -gt 0 ]; then
-  pip install -U "$@";
+  pip install $@;
 else
-  pip install -r $REQUIREMENTS;
+  pip wheel --find-links=$WHEELDIR -w $WHEELDIR -r $REQUIREMENTS;
+  pip install --no-index --find-links=$WHEELDIR -r $REQUIREMENTS;
 fi

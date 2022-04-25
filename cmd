@@ -19,7 +19,7 @@ if [[ ".$0" == ".$BASH_SOURCE" ]]; then
   if [ $# -gt 0 ]; then app=$1; fi
 
   if [[ -z $app ]] || [[ ! "yarn app node docker init" =~ $app ]]; then
-    print_help;
+    cat documents/help_content.md;
     exit 0;
   fi
 
@@ -65,7 +65,7 @@ if [[ ".$0" == ".$BASH_SOURCE" ]]; then
       G_ID="$(id -g root)";
       if [[ -z "$args" ]] && [[ ! -z $app_deps ]]; then
         U_ID=$U_ID G_ID=$G_ID dkrcmp exec --user $U_ID app bash /src/scripts/apt-install.sh $app_deps;
-      elif [[ -z "$args" ]]; then
+      elif [[ ! -z "$args" ]]; then
         U_ID=$U_ID G_ID=$G_ID dkrcmp exec --user $U_ID app bash /src/scripts/apt-install.sh $args;
       fi
     else
@@ -75,7 +75,13 @@ if [[ ".$0" == ".$BASH_SOURCE" ]]; then
 
   if [[ $app == "node" ]]; then
     if [[ $command == "install" ]]; then
-      dkrcmp exec node sh /src/scripts/apk-install.sh $args;
+      U_ID="$(id -u root)";
+      G_ID="$(id -g root)";
+      if [[ -z "$args" ]] && [[ ! -z $app_deps ]]; then
+        U_ID=$U_ID G_ID=$G_ID dkrcmp exec --user $U_ID node sh /src/scripts/apk-install.sh $node_deps;
+      elif [[ ! -z "$args" ]]; then
+        U_ID=$U_ID G_ID=$G_ID dkrcmp exec --user $U_ID node sh /src/scripts/apk-install.sh $args;
+      fi
     else
       dkrcmp exec node $command $args;
     fi
@@ -83,7 +89,9 @@ if [[ ".$0" == ".$BASH_SOURCE" ]]; then
 
   if [[ $app == "yarn" ]]; then
       if [[ $command == "install" && ! -z $node_deps ]]; then
-        dkrcmp exec node sh /src/scripts/apk-install.sh $node_deps;
+        U_ID="$(id -u root)";
+        G_ID="$(id -g root)";
+        U_ID=$U_ID G_ID=$G_ID dkrcmp exec --user $U_ID node sh /src/scripts/apk-install.sh $node_deps;
       fi
       dkrcmp exec node yarn $command $args;
   fi

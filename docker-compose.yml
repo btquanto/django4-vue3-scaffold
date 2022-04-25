@@ -54,6 +54,7 @@ services:
       - AUTO_START=${AUTO_START}
     volumes:
       - ./:/src
-      - ./scripts/command.sh:/usr/bin/cmd:ro
+      - ./config/_bashrc.sh:/.bashrc
       - ./config/supervisor:/etc/supervisor
+      - ./scripts/command.sh:/usr/bin/cmd:ro
     entrypoint: [/src/scripts/start.sh]

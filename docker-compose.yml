@@ -10,7 +10,7 @@ networks:
 services:
   mysql:
     image: mariadb:10.5-focal
-    # restart: always
+    restart: ${RESTART_POLICY}
     networks:
         - database
     environment:
@@ -22,7 +22,7 @@ services:
         - database:/var/lib/mysql
   nginx:
     image: nginx:1.21-alpine
-    # restart: always
+    restart: ${RESTART_POLICY}
     networks:
       - reversed_proxy
     ports:
@@ -35,7 +35,7 @@ services:
   node:
     user: ${DOCKER_USER}
     image: node:17-alpine3.14
-    # restart: always
+    restart: ${RESTART_POLICY}
     working_dir: /src
     volumes:
       - ./:/src
@@ -43,7 +43,7 @@ services:
   app:
     user: ${DOCKER_USER}
     image: python:3.9-bullseye
-    # restart: always
+    restart: ${RESTART_POLICY}
     working_dir: /src
     networks:
       - database

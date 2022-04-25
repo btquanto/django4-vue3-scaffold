@@ -1,6 +1,3 @@
-dir_path=$(dirname $(realpath $0))
-cd $dir_path;
-
 check_package_installed() {
   installed=`apk info -vv | grep -o $package`;
   return $?;

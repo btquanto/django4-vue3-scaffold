@@ -1,9 +1,9 @@
 #!/bin/bash
 
 export HOME="/src/.cache/home";
+export PIP_CACHE_DIR="/src/.cache/.pip";
 export WHEELDIR="/src/.cache/.wheel";
 export REQUIREMENTS="requirements.txt";
-export PIP_CACHE_DIR="/src/.cache/.pip";
 
 set -u;
 cd /src

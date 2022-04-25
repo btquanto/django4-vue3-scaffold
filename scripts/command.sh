@@ -12,7 +12,10 @@ fi
 
 if [ $# -gt 0 ]; then command=$1; fi
 
-if [ "$command" == "serve" ]; then
+if [ "$command" == "exec" ]; then
+    shift; $@;
+
+elif [ "$command" == "serve" ]; then
 
     port=8000; if [ $# -gt 1 ]; then port=$2; fi
     cd backend;

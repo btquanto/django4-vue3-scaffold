@@ -54,9 +54,7 @@ if [[ ".$0" == ".$BASH_SOURCE" ]]; then
     if [[ "start stop restart status" =~ "$command"  && -z "$args" ]]; then
       args="all";
     fi
-    if [[ $command == "exec" ]]; then
-      dkrcmp exec app $args;
-    elif [[ $command == "pip-install" ]]; then
+    if [[ $command == "pip-install" ]]; then
       if [[ -z "$args" ]]; then
         dkrcmp exec app bash /src/scripts/pip-install.sh;
       else

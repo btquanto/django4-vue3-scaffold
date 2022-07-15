@@ -1,6 +1,6 @@
 <template>
   <sidebar
-    class="$bg-cyan-600 $text-cyan-100 $w-64 $py-4 $absolute $inset-y-0 $left-0 $transform $-translate-x-full $transition $duration-200 $ease-in-out"
+    class="sidebar $w-64 $py-4 $absolute $left-0 $inset-y-0 $transform $-translate-x-full $transition $duration-200 $ease-in-out"
     :class="{
       '$relative $-translate-x-0': showSidebar,
     }">
@@ -34,7 +34,6 @@ const navLinks = ref([
   { icon: DocumentReportIcon, href: "#", name: $gettext("Reports") },
 ]);
 </script>
-
 <script>
 export default {
   name: "SideBar",
@@ -43,5 +42,9 @@ export default {
   },
 };
 </script>
-
-<style scoped></style>
+<style scoped>
+.sidebar {
+  color: rgb(var(--text-sidebar) / var(--text-opacity));
+  background-color: rgb(var(--bg-sidebar) / var(--bg-opacity));
+}
+</style>

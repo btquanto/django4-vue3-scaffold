@@ -7,7 +7,7 @@
       <!-- Header -->
       <HeaderBar />
       <!-- Content -->
-      <main class="$grow $p-8 $text-cyan-700">
+      <main class="main-container $grow $p-8">
         <RouterView />
       </main>
       <FooterBar />
@@ -16,8 +16,6 @@
 </template>
 
 <script>
-import "@/assets/css/tailwind.css";
-
 import SideBar from "./SideBar.vue";
 import HeaderBar from "./HeaderBar.vue";
 import FooterBar from "./FooterBar.vue";
@@ -36,5 +34,12 @@ export default {
   },
 };
 </script>
-
-<style scoped></style>
+<style lang="css" src="@/assets/css/tailwind.css"></style>
+<style lang="scss" src="@/assets/scss/base.scss"></style>
+<style scoped lang="scss">
+.main-container {
+  color: rgb(var(--text-color) / var(--text-opacity));
+  flex-grow: 1;
+  padding: 2rem;
+}
+</style>

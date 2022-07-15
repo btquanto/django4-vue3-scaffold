@@ -17,7 +17,7 @@ def _flatten(model):
 
 # pylint: disable=dangerous-default-value
 # pylint: disable=line-too-long
-def jsonify(models, * , one_to_one_fields=[], one_to_many_fields=[], properties=[]):
+def jsonify(models, * , one_to_one_fields=None, one_to_many_fields=None, properties=None):
     """Turning a query or a list of models into a json
 
     Args:
@@ -29,6 +29,9 @@ def jsonify(models, * , one_to_one_fields=[], one_to_many_fields=[], properties=
     Returns:
         [dict]: A list of jsonified models
     """
+    one_to_one_fields = one_to_one_fields or []
+    one_to_many_fields = one_to_many_fields or []
+    properties = properties or []
     single = not hasattr(models, '__iter__')
     if models and single:
         models = [models]

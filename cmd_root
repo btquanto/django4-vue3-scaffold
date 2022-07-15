@@ -1,0 +1,51 @@
+#!/bin/bash
+
+BASH_SOURCE=".$0";
+
+# Do not allow sourcing this script
+if [[ ".$0" == ".$BASH_SOURCE" ]]; then
+  # cd into the script's directory
+  # This allows calling the script from anywhere
+  project_root_path=$(dirname $(realpath $0));
+  cd $project_root_path;
+  project=`basename "$(pwd)"`;
+  env_docker="config/.env_docker";
+ 
+  app_deps="$(cat packages-app.txt | tr -s '\n' ' ')"
+  node_deps="$(cat packages-node.txt | tr -s '\n' ' ')"
+
+  source scripts/utilities.sh;
+
+  if [ $# -gt 0 ]; then app=$1; fi
+
+  if [[ -z $app ]] || [[ ! "app node" =~ $app ]]; then
+    echo "Invalid \$app argument";
+    exit 0;
+  fi
+
+  command=""
+  if [ $# -gt 1 ]; then command=$2; fi;
+
+  shift 2;
+
+  args=""
+  for arg in "$@"; do
+      arg="${arg//\\/\\\\}"
+      if [[ $arg == *" "* ]]; then
+        args="$args \"${arg//\"/\\\"}\""
+      else
+        args="$args ${arg//\"/\\\"}"
+      fi
+  done
+
+  if [[ $app == "app" ]]; then
+    dkrcmp exec --user 0 app cmd $command $args;
+  fi
+
+  if [[ $app == "node" ]]; then
+    dkrcmp exec --user 0 node $command $args;
+  fi
+
+else
+  echo "Sourcing this script is not allowed";
+fi

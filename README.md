@@ -6,7 +6,7 @@ Please ensure that you already have `docker` and `docker-compose` installed.
 
 ## The `./cmd` script
 
-This script contains shortcuts for a lot of operations. You should first read its [help menu](documents/help_content.md) for a rough understanding of what it does.
+This script contains shortcuts for a lot of operations. You should first read its [help menu](_documents/help_content.md) for a rough understanding of what it does.
 
 # Initialize the project and setting environment variables
 
@@ -14,7 +14,7 @@ Initialize project's configuration files
 
     ./cmd init
 
-Edit `config/.env_docker`, `config/.env_django` and `backend/config/local.py` as fit.
+Edit `config/.docker`, `config/.django` and `backend/config/local.py` as fit.
 
 ## AUTO_START
 
@@ -59,11 +59,11 @@ The configuration `AUTO_START` will be used in `supervisor` configuration. This 
 
 # Running migrations
 
-    ./cmd app migrate
+    ./cmd app cmd migrate
 
 ## Start back-end server in debug mode
 
-    ./cmd app serve
+    ./cmd app cmd serve
 
 ## Start/Stop/Restart back-end server using supervisor
 

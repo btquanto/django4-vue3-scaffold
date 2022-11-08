@@ -19,7 +19,7 @@ from django.utils.translation import gettext_lazy as _
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Loading local configurations
-DJANGO_LOCAL_CONFIG = os.getenv("DJANGO_LOCAL_CONFIG", "config/.env_django")
+DJANGO_LOCAL_CONFIG = os.getenv("DJANGO_LOCAL_CONFIG", "config/.django")
 load_dotenv(os.path.join(BASE_DIR.parent, DJANGO_LOCAL_CONFIG))
 
 # Quick-start development settings - unsuitable for production

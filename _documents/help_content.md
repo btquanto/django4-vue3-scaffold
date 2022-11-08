@@ -93,5 +93,5 @@
 
     DOCKER_USER=$DOCKER_USER docker-compose --env-file /path/to/env/file -p <project_name> <command> <arguments>
 
-  - `DOCKER_USER`: Depends on the `G_ID` and `U_ID` specified in `config/.env_docker`. Default to `"$(id -u):$(id -g)"`.
+  - `DOCKER_USER`: Depends on the `G_ID` and `U_ID` specified in `config/.docker`. Default to `"$(id -u):$(id -g)"`.
 

@@ -2,13 +2,15 @@
 
 cd /src;
 
+export VENV_DIR="/src/.cache/.virtualenv";
+
 command="serve"
 
-if [ ! -d ".venv" ]; then
-    python -m venv .venv;
+if [ ! -d "$VENV_DIR" ]; then
+    python -m venv $VENV_DIR;
 fi
 
-. .venv/bin/activate;
+source $VENV_DIR/bin/activate;
 
 if [ $# -gt 0 ]; then command=$1; fi
 
@@ -16,7 +18,6 @@ if [ "$command" == "exec" ]; then
     shift; $@;
 
 elif [ "$command" == "serve" ]; then
-
     port=8000; if [ $# -gt 1 ]; then port=$2; fi
     cd backend;
     python3 manage.py runserver "0.0.0.0:$port"

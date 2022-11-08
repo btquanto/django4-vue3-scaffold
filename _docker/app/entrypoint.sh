@@ -2,9 +2,10 @@
 export HOME="/src/.cache/home";
 export REQUIREMENTS="requirements.txt";
 export PIP_CACHE_DIR="/src/.cache/.pip";
+export VENV_DIR="/src/.cache/.virtualenv";
 
 set -u;
-cd /src
+cd /src;
 
 if [ ! -d $HOME ]; then mkdir -p $HOME; fi;
 if [ ! -d $PIP_CACHE_DIR ]; then mkdir -p $PIP_CACHE_DIR; fi;
@@ -14,11 +15,11 @@ export PATH=/src/.cache/home/.local/bin:$PATH;
 # Checking apps dependencies
 echo "Server starting..."
 
-if [ ! -d ".venv" ]; then
-    python -m venv .venv;
+if [ ! -d $VENV_DIR ]; then
+    python -m venv $VENV_DIR;
 fi
 
-. .venv/bin/activate;
+source $VENV_DIR/bin/activate;
 
 read -r -d '' CODE << EOM
 import pkg_resources
@@ -37,7 +38,7 @@ python3 -c "$CODE"
 
 if [ ! $? -eq 0 ]; then
     echo "Installing wheel";
-    bash scripts/pip-install.sh wheel;
+    bash _development/pip-install.sh wheel;
 fi
 
 read -r -d '' CODE << EOM
@@ -62,9 +63,9 @@ else
     if [ -f $REQUIREMENTS ]; then
         echo "Installing missing dependencies";
         # Upgrade pip
-        bash scripts/pip-install.sh -U pip;
+        bash _development/pip-install.sh -U pip;
         # Install requirements
-        bash scripts/pip-install.sh;
+        bash _development/pip-install.sh;
         echo "All dependencies are installed";
     fi;
 fi

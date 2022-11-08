@@ -3,6 +3,7 @@
 export HOME="/src/.cache/home";
 export PIP_CACHE_DIR="/src/.cache/.pip";
 export WHEELDIR="/src/.cache/.wheel";
+export VENV_DIR="/src/.cache/.virtualenv";
 export REQUIREMENTS="requirements.txt";
 
 set -u;
@@ -13,11 +14,11 @@ cd /src
 
 export PATH=/src/.cache/home/.local/bin:$PATH;
 
-if [ ! -d ".venv" ]; then
-    python -m venv .venv;
+if [ ! -d $VENV_DIR ]; then
+    python -m venv $VENV_DIR;
 fi
 
-source .venv/bin/activate;
+source $VENV_DIR/bin/activate;
 
 if [ $# -gt 0 ]; then
   pip install $@;

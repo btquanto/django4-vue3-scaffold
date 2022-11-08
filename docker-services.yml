@@ -1,0 +1,32 @@
+version: '3.8'
+
+volumes:
+  database:
+
+services:
+  mysql:
+    image: mariadb:10.5-focal
+    restart: ${RESTART_POLICY}
+    environment:
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+    ports:
+      - 3306:3306
+    volumes:
+        - database:/var/lib/mysql
+  adminer:
+    image: adminer:4.6.3-standalone
+    ports:
+      - 7200:8080
+    extra_hosts:
+      - "docker.host:host-gateway"
+  node:
+    user: ${DOCKER_USER}
+    image: node:17-alpine3.14
+    restart: ${RESTART_POLICY}
+    working_dir: /src
+    volumes:
+      - ./:/src
+    command: ["sleep", "infinity"]

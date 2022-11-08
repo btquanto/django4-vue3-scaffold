@@ -11,7 +11,7 @@ LANGUAGE_CODE="en"
 TIME_ZONE="Asia/Ho_Chi_Minh"
 
 # Database
-DB_HOST="mysql"
+DB_HOST="docker.host"
 DB_NAME="app"
 DB_USER="app"
 DB_PASSWORD="mydbpassword"

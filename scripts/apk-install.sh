@@ -25,10 +25,7 @@ for package in $@; do
   fi
 done;
 
-if [ ! -z "$deps" ]
-then
-  apk update;
-fi
+apk update;
 
 if [ ! -z "$deps" ]
 then

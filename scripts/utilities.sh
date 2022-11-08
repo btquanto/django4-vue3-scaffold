@@ -3,8 +3,8 @@ function dkrcmp() {
   if [ -z $G_ID ]; then G_ID="$(id -g)"; fi;
 
   DOCKER_USER="$U_ID:$G_ID";
-  echo "DOCKER_USER=$DOCKER_USER docker-compose --env-file $env_docker -p $project $@;";
-  DOCKER_USER=$DOCKER_USER docker-compose --env-file $env_docker -p $project $@;
+  echo "DOCKER_USER=$DOCKER_USER docker compose -f docker-services.yml -f docker-app.yml --env-file $env_docker -p $project $@;";
+  DOCKER_USER=$DOCKER_USER docker compose -f docker-services.yml -f docker-app.yml --env-file $env_docker -p $project $@;
 }
 
 function build() {

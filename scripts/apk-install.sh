@@ -1,6 +1,10 @@
 check_package_installed() {
-  installed=`apk info -vv | grep -o $package`;
-  return $?;
+  installed=`apk info | grep $1`;
+  if [[ -z "$installed" ]]; then
+    echo "Package {$1} is not installed";
+    return 1;
+  fi
+  return 0;
 }
 
 if [ $# -eq 0 ]
@@ -15,7 +19,6 @@ for package in $@; do
   check_package_installed $package;
   if [ $? -eq 1 ]
   then
-    echo "Package '$package' has not been installed";
     if [ -z "$deps" ]
     then
       deps="$package";
@@ -25,10 +28,13 @@ for package in $@; do
   fi
 done;
 
-apk update;
+if [ ! -z "$deps" ]
+then
+  apk update;
+fi
 
 if [ ! -z "$deps" ]
 then
   echo "Installing packages: '$deps'";
-  apk --update add $deps;
+  apk add --update $deps;
 fi

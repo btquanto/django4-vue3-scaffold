@@ -74,17 +74,19 @@
     "200",
     "--aggressive"
   ],
-  "explorer.experimental.fileNesting.enabled": true,
-  "explorer.experimental.fileNesting.patterns": {
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
     "*.ts": "${capture}.js",
     "*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts",
     "*.jsx": "${capture}.js",
     "*.tsx": "${capture}.ts",
-    "tsconfig.json": "tsconfig.*.json",
-    "vue.config.js": "postcss.config.js, tailwind.js, gettext.config.js, webpack-stats.json, .eslintrc.js, babel.config.js, package.json, package-lock.json, yarn.lock",
     "_env_django": ".env_django",
     "_env_docker": ".env_docker",
+    "cmd": "cmd_root",
+    "docker-app.yml": "docker-services.yml",
     "requirements.txt": "packages-app.txt, packages-node.txt",
+    "tsconfig.json": "tsconfig.*.json",
+    "vue.config.js": "postcss.config.js, tailwind.js, gettext.config.js, webpack-stats.json, .eslintrc.js, babel.config.js, package.json, package-lock.json, yarn.lock",
   },
   "python.envFile": "${workspaceFolder}/.vscode/.env",
 }

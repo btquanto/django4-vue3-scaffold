@@ -8,7 +8,7 @@ if [[ ".$0" == ".$BASH_SOURCE" ]]; then
   # This allows calling the script from anywhere
   project_root_path=$(dirname $(realpath $0));
   cd $project_root_path;
-  project=`basename "$(pwd)"`;
+  project=`basename "$(pwd)" | tr '[:upper:]' '[:lower:]'`;
   env_docker="config/.env_docker";
  
   app_deps="$(cat packages-app.txt | tr -s '\n' ' ')"

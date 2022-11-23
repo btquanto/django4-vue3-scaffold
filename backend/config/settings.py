@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Third-party apps
-    'webpack_loader',
+    'core.plugins.webpack_loader',
     # Local apps
     'common',
     'todo',

@@ -29,10 +29,26 @@ module.exports = defineConfig({
     },
     optimization: {
       runtimeChunk: {
-        name: "runtime",
+        name: (entrypoint) => `runtime-${entrypoint.name}`,
       },
       splitChunks: {
-        chunks: "async",
+        cacheGroups: {
+          corejs: {
+            test: /[\\/]node_modules[\\/]core-js[\\/]/,
+            name: "corejs",
+            chunks: "all",
+          },
+          moment: {
+            test: /[\\/]node_modules[\\/]moment[\\/]/,
+            name: "moment",
+            chunks: "all",
+          },
+          vue: {
+            test: /[\\/]node_modules[\\/]vue/,
+            name: "vue",
+            chunks: "all",
+          },
+        },
       },
     },
     resolve: {
@@ -58,12 +74,7 @@ module.exports = defineConfig({
   },
   chainWebpack: (config) => {
     config.plugin("BundleTracker").use(BundleTracker, [{ filename: "./webpack-stats.json" }]);
-    config.output.filename((opt) => {
-      if (opt.chunk.id == "runtime") {
-        return "[name].js";
-      }
-      return "[name]-[chunkhash].js";
-    });
+    config.output.filename((_) => "[name]-[chunkhash].js");
     config.resolve.alias.set("__NODE__", Path.resolve(__dirname, "./node_modules"));
   },
   css: {

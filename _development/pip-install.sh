@@ -20,7 +20,7 @@ fi
 
 source $VENV_DIR/bin/activate;
 
-if [ $# -gt 0 ]; then
+if [ $# -gt 1 ]; then
   pip install $@;
 else
   pip wheel --find-links=$WHEELDIR -w $WHEELDIR -r $REQUIREMENTS;

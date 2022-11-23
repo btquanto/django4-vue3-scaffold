@@ -59,11 +59,11 @@ The configuration `AUTO_START` will be used in `supervisor` configuration. This 
 
 # Running migrations
 
-    ./cmd app cmd migrate
+    ./cmd app migrate
 
 ## Start back-end server in debug mode
 
-    ./cmd app cmd serve
+    ./cmd app serve
 
 ## Start/Stop/Restart back-end server using supervisor
 

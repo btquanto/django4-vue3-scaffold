@@ -82,17 +82,17 @@ export default {
   methods: {
     submit() {
       const action = this.mode == "insert" ? "addTodoItem" : "updateTodoItem";
-      const payload = {
-        csrf_token: this.$global.csrf_token,
-        item: this.item,
-        formData: this.form.formData(),
-      };
-      this.$store.dispatch(action, payload).then(([res, _]) => {
-        if (res.success) {
-          this.form = new TodoItemForm();
-          this.$router.go(-1);
-        }
-      });
+      this.$store
+        .dispatch(action, {
+          item: this.item,
+          formData: this.form.formData(),
+        })
+        .then(([res, _]) => {
+          if (res.success) {
+            this.form = new TodoItemForm();
+            this.$router.go(-1);
+          }
+        });
     },
   },
 };

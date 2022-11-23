@@ -3,9 +3,10 @@ import { Store } from "vuex";
 import { createRouter, createWebHashHistory } from "vue-router";
 
 import common from "@/utils/plugins/common";
+import VueCookies from "vue-cookies";
 import gettext from "@/utils/i18n";
 import layout from "@/modules/layout";
-import todo from "@/apps/todo/modules/todo";
+import todo from "@/apps/todo/modules";
 
 import MasterLayout from "@/components/layout/MasterLayout.vue";
 import TodoList from "@/apps/todo/TodoList.vue";
@@ -34,4 +35,5 @@ app.use(gettext);
 app.use(router);
 app.use(store);
 app.use(common);
+app.use(VueCookies);
 app.mount("#app");

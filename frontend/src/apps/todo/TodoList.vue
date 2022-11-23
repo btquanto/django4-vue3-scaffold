@@ -41,7 +41,7 @@
   </div>
 </template>
 <script setup>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import { TrashIcon, PlusIcon, PencilAltIcon } from "@heroicons/vue/solid";
 import { PriorityText, StatusText } from "./models/refs";
 </script>
@@ -51,18 +51,14 @@ export default {
   computed: {
     ...mapGetters(["todoItems"]),
   },
-  created() {
-    this.$store.dispatch("fetchTodoItems", {
-      csrf_token: this.$global.csrf_token,
+  async created() {
+    await this.$store.dispatch("setup", {
+      csrf_token: this.$cookies.get("csrf_token"),
     });
+    this.$store.dispatch("fetchTodoItems");
   },
   methods: {
-    deleteTodoItem(item) {
-      this.$store.dispatch("deleteTodoItem", {
-        csrf_token: this.$global.csrf_token,
-        item,
-      });
-    },
+    ...mapActions(["deleteTodoItem"]),
   },
 };
 </script>

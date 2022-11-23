@@ -18,16 +18,16 @@ class DefaultMiddleware:
 
     # pylint: disable=no-self-use
     def process_template_response(self, request, response):
-        context = response.context_data.get('$context', {
-            "$title": _("Django App")
+        locale = request.session.get('language', settings.LANGUAGE_CODE)
+        response.set_cookie("locale", locale, expires=None, path='/', httponly=False)
+        js_context = response.context_data.get('$context', {
+            "$title": _("Django App"),
         })
-        language_code = request.session.get('language', settings.LANGUAGE_CODE)
-        response.context_data['js_context'] = json.dumps({
-            "$context": context,
-            "$global": {
-                '$i18n': {
-                    'language_code': language_code,
-                },
-            }
+        response.context_data.update({
+            "locale": locale,
+            "js_context": json.dumps({
+                "$context": js_context, # $context passed from django views
+                "$global": { } # $global contains attributes that are available to all responses
+            })
         })
         return response

@@ -22,7 +22,7 @@ class DefaultMiddleware:
             "$title": _("Django App")
         })
         language_code = request.session.get('language', settings.LANGUAGE_CODE)
-        response.context_data['js_data'] = json.dumps({
+        response.context_data['js_context'] = json.dumps({
             "$context": context,
             "$global": {
                 '$i18n': {

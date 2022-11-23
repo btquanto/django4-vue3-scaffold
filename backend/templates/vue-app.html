@@ -17,7 +17,7 @@
     </noscript>
     <div id="app"></div>
     <script>
-      window.JS_DATA = {{ js_data | safe }};
+      window.$JS_CONTEXT = {{ js_context | safe }};
     </script>
     {% render_bundle bundle attrs='async' %}
   </body>

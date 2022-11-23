@@ -1,6 +1,6 @@
 import moment from "moment";
 
-const JS_DATA = window.JS_DATA || {};
+const $JS_CONTEXT = window.$JS_CONTEXT || {};
 
 export default {
   install(app, _options) {
@@ -9,7 +9,7 @@ export default {
     app.config.globalProperties.$path = encodeURIComponent(location.pathname);
     app.config.globalProperties.$url = new URL(location.href);
     app.config.globalProperties.$moment = (...args) => moment(...args);
-    app.config.globalProperties.$context = JS_DATA.$context;
-    app.config.globalProperties.$global = JS_DATA.$global;
+    app.config.globalProperties.$context = $JS_CONTEXT.$context;
+    app.config.globalProperties.$global = $JS_CONTEXT.$global;
   },
 };

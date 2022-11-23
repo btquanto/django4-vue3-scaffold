@@ -29,5 +29,4 @@ class WebpackLoaderConfig(AppConfig):
     def ready(self):
         # pylint: disable=import-outside-toplevel
         from django.core.checks import register, Tags
-        print("REGISTERING WEBPACK LOADER CONFIG CHECK")
         register(Tags.compatibility)(webpack_cfg_check)

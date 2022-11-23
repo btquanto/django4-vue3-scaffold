@@ -1,7 +1,6 @@
 {% load static %}
 {% load i18n %}
 {% load render_bundle from webpack_loader %}
-{% load webpack_static from webpack_loader %}
 
 <!DOCTYPE html>
 <html lang="">
@@ -19,8 +18,7 @@
     <div id="app"></div>
     <script>
       window.JS_DATA = {{ js_data | safe }};
-    </script
-    {% render_bundle bundle %}
-    <script src="{% webpack_static "runtime.js" %}"></script>
+    </script>
+    {% render_bundle bundle attrs='async' %}
   </body>
 </html>

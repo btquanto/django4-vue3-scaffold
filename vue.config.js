@@ -12,14 +12,19 @@ const APPS = {
   },
 };
 
-const PAGES = {};
-Object.keys(APPS).forEach((app) => Object.keys(APPS[app]).forEach((view) => (PAGES[`${app}_${view}`] = APPS[app][view])));
-
 module.exports = defineConfig({
   transpileDependencies: true,
   publicPath: PUBLIC_PATH,
   outputDir: OUTPUT_DIR,
-  pages: PAGES,
+  pages: Object.fromEntries(
+    Object.entries(APPS)
+      .map(([app, views]) => {
+        return Object.entries(views).map(([view, path]) => {
+          return [`${app}_${view}`, path];
+        });
+      })
+      .flat()
+  ),
   configureWebpack: {
     performance: {
       hints: false,
@@ -28,11 +33,25 @@ module.exports = defineConfig({
       ignored: Path.resolve(__dirname, "node_modules"),
     },
     optimization: {
-      runtimeChunk: {
-        name: "runtime",
-      },
+      runtimeChunk: "multiple",
       splitChunks: {
-        chunks: "async",
+        cacheGroups: {
+          corejs: {
+            test: /[\\/]node_modules[\\/]core-js[\\/]/,
+            name: "corejs",
+            chunks: "all",
+          },
+          moment: {
+            test: /[\\/]node_modules[\\/]moment[\\/]/,
+            name: "moment",
+            chunks: "all",
+          },
+          vue: {
+            test: /[\\/]node_modules[\\/]vue/,
+            name: "vue",
+            chunks: "all",
+          },
+        },
       },
     },
     resolve: {
@@ -58,13 +77,7 @@ module.exports = defineConfig({
   },
   chainWebpack: (config) => {
     config.plugin("BundleTracker").use(BundleTracker, [{ filename: "./webpack-stats.json" }]);
-    config.output.filename((opt) => {
-      if (opt.chunk.id == "runtime") {
-        return "[name].js";
-      }
-      return "[name]-[chunkhash].js";
-    });
-    config.resolve.alias.set("__NODE__", Path.resolve(__dirname, "./node_modules"));
+    config.output.filename((_) => "[name]-[chunkhash].js");
   },
   css: {
     extract: {

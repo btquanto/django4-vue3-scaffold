@@ -1,5 +1,6 @@
 export const state = {
   csrf_token: "",
+  keyword: "",
   todoItems: [],
   formErrors: {},
 };
@@ -7,11 +8,12 @@ export const state = {
 export const getters = {
   csrf_token: (state) => state.csrf_token,
   todoItems: (state) => state.todoItems,
+  keyword: (state) => state.keyword,
+  filteredTodoItems: (state) => state.todoItems.filter((item) => item.name.includes(state.keyword)),
 };
 
 export const mutations = {
   setState: (state, payload) => {
-    console.table(payload);
     Object.entries(payload).forEach(([key, value]) => {
       state[key] = value;
     });

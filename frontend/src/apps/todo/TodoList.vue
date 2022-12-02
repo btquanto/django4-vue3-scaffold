@@ -1,5 +1,6 @@
 <template>
   <div class="$flex $flex-col">
+    <TextField v-model="searchTerm" :label="$gettext('Search Term')" name="searchTerm" class="$w-full $mb-6" />
     <table class="$border-separate">
       <colgroup>
         <col class="$w-10" />
@@ -20,7 +21,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in todoItems" :key="item.__uuid__" class="odd:$bg-white even:$bg-gray-50 $border-b">
+        <tr v-for="(item, index) in filteredTodoItems" :key="item.__uuid__" class="odd:$bg-white even:$bg-gray-50 $border-b">
           <td class="$border $px-6 $py-3 $text-center">{{ index + 1 }}</td>
           <td class="$border $px-6 $py-3 $text-left">{{ item.name }}</td>
           <td class="$border $px-6 $py-3 $text-left">{{ item.description }}</td>
@@ -44,12 +45,21 @@
 import { mapGetters, mapActions } from "vuex";
 import { TrashIcon, PlusIcon, PencilAltIcon } from "@heroicons/vue/solid";
 import { PriorityText, StatusText } from "./models/refs";
+import TextField from "@/components/forms/TextField";
 </script>
 <script>
 export default {
   name: "TodoList",
   computed: {
-    ...mapGetters(["todoItems"]),
+    ...mapGetters(["todoItems", "filteredTodoItems", "keyword"]),
+    searchTerm: {
+      get() {
+        return this.keyword;
+      },
+      set(value) {
+        this.$store.commit("setState", { keyword: value });
+      },
+    },
   },
   created() {
     this.$store.dispatch("fetchTodoItems");

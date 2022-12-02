@@ -10,6 +10,9 @@ const APPS = {
   todo: {
     index: { entry: `${INPUT_DIR}/entries/todo/index.js` },
   },
+  search: {
+    index: { entry: `${INPUT_DIR}/entries/search/index.js` },
+  },
 };
 
 module.exports = defineConfig({

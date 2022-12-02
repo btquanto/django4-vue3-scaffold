@@ -21,8 +21,9 @@ from django.views.i18n import JavaScriptCatalog
 urlpatterns = [
     path('jsi18n/django', JavaScriptCatalog.as_view(domain="django"), name="jsi18n-django"),
     path('jsi18n/djangojs', JavaScriptCatalog.as_view(domain="djangojs"), name="jsi18n-djangojs"),
-    path("", RedirectView.as_view(url="todo/", permanent=False), name="default"),
+    path("", RedirectView.as_view(url="search/", permanent=False), name="default"),
     path('todo/', include('todo.urls')),
+    path('search/', include('search.urls')),
 ]
 # urlpatterns += static(settings.CERT_URL, document_root=settings.CERT_ROOT)
 urlpatterns += staticfiles_urlpatterns()

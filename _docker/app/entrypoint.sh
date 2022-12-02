@@ -37,8 +37,8 @@ EOM
 python3 -c "$CODE"
 
 if [ ! $? -eq 0 ]; then
-    echo "Installing wheel";
-    bash _development/pip-install.sh wheel;
+    echo "Upgrade pip and wheel";
+    pip install -U pip wheel;
 fi
 
 read -r -d '' CODE << EOM
@@ -62,8 +62,6 @@ if [ $? -eq 0 ]; then
 else
     if [ -f $REQUIREMENTS ]; then
         echo "Installing missing dependencies";
-        # Upgrade pip
-        bash _development/pip-install.sh -U pip;
         # Install requirements
         bash _development/pip-install.sh;
         echo "All dependencies are installed";

@@ -5,6 +5,7 @@ import json
 
 from django.conf import settings
 from django.utils.translation import gettext as _
+from django.middleware.csrf import get_token as get_csrf_token
 
 from core.utils.i18n import activate_translation
 
@@ -19,7 +20,9 @@ class DefaultMiddleware:
     # pylint: disable=no-self-use
     def process_template_response(self, request, response):
         locale = request.session.get('language', settings.LANGUAGE_CODE)
+        csrf_token = get_csrf_token(request)
         response.set_cookie("locale", locale, expires=None, path='/', httponly=False)
+        response.set_cookie("csrf_token", csrf_token, expires=None, path='/', httponly=False)
         js_context = response.context_data.get('$context', {
             "$title": _("Django App"),
         })

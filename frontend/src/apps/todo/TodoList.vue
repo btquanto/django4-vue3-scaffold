@@ -51,10 +51,7 @@ export default {
   computed: {
     ...mapGetters(["todoItems"]),
   },
-  async created() {
-    await this.$store.dispatch("setup", {
-      csrf_token: this.$cookies.get("csrf_token"),
-    });
+  created() {
     this.$store.dispatch("fetchTodoItems");
   },
   methods: {

@@ -8,7 +8,7 @@ import gettext from "@/utils/i18n";
 import layout from "@/modules/layout";
 import todo from "@/apps/todo/modules";
 
-import MasterLayout from "@/components/layout/MasterLayout.vue";
+import Index from "@/apps/todo/Index.vue";
 import TodoList from "@/apps/todo/TodoList.vue";
 import TodoItemForm from "@/apps/todo/TodoItemForm.vue";
 
@@ -30,7 +30,7 @@ const store = new Store({
   },
 });
 
-const app = createApp(MasterLayout);
+const app = createApp(Index);
 app.use(gettext);
 app.use(router);
 app.use(store);

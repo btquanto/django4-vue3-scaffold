@@ -11,6 +11,7 @@ export const getters = {
 
 export const mutations = {
   setState: (state, payload) => {
+    console.table(payload);
     Object.entries(payload).forEach(([key, value]) => {
       state[key] = value;
     });

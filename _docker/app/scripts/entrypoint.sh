@@ -9,4 +9,4 @@ supervisord -c /etc/supervisor/supervisord.conf;
 # Run nginx unit
 # docker-entrypoint unitd --no-daemon --control unix:/var/run/control.unit.sock;
 
-sleep infinity;
+while true; do sleep 86400; done

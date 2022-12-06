@@ -5,24 +5,13 @@ function dkrcmp() {
 }
 
 if [[ $APP == "docker" ]]; then
-  if [[ "$COMMAND" == "up" && -z "$ARGS" ]]; then
-    ARGS="-d";
-  fi
-  if [[ "$COMMAND" == "up" && "$ARGS" == "--no-daemon" ]]; then
-    ARGS="";
-  fi
-  if [[ "$COMMAND" == "logs" && -z "$ARGS" ]]; then
-    ARGS="-f app";
-  fi
+  [[ "$COMMAND" == "up" && -z "${ARGS[*]}" ]] && ARGS=(-d);
+  [[ "$COMMAND" == "up" && "${ARGS[*]}" == "--fg" ]] && ARGS=();
+  [[ "$COMMAND" == "logs" && -z "${ARGS[*]}" ]] && ARGS=(-f app);
   if [[ "$COMMAND" == "build" ]]; then
-      USER_ID=${USER_ID:-$(id -u)};
-      echo "USER_ID=$USER_ID docker compose --env-file $ENV_DOCKER build;";
-      USER_ID=$USER_ID docker compose --env-file "$ENV_DOCKER" build;
+      echo "USER_ID=${USER_ID:-$(id -u)} docker compose --env-file $ENV_DOCKER build;";
+      USER_ID=${USER_ID:-$(id -u)} docker compose --env-file "$ENV_DOCKER" build;
   else
-    if [ -z "$ARGS" ]; then
-      dkrcmp "$COMMAND";
-    else
-      dkrcmp "$COMMAND" "$ARGS";
-    fi
+    dkrcmp $COMMAND "${ARGS[@]}";
   fi
 fi

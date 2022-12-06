@@ -2,25 +2,9 @@
 mkdir -p dist;
 
 if [[ $APP == "node" ]]; then
-  if [[ $MODE == "root" ]]; then
-    if [ -z "$ARGS" ]; then
-      dkrcmp exec node "$COMMAND";
-    else
-      dkrcmp exec node "$COMMAND" "$ARGS";
-    fi
-  else
-    if [ -z "$ARGS" ]; then
-      dkrcmp exec --user $(id -u) node "$COMMAND";
-    else
-      dkrcmp exec --user $(id -u) node "$COMMAND" "$ARGS";
-    fi
-  fi
+  dkrcmp exec $([[ "$MODE" == "root" ]] && echo 0 || id -u) node $COMMAND "${ARGS[@]}";
 fi
 
 if [[ $APP == "yarn" ]]; then
-  if [ -z "$ARGS" ]; then
-    dkrcmp exec --user $(id -u) node yarn "$COMMAND";
-  else
-    dkrcmp exec --user $(id -u) node yarn "$COMMAND" "$ARGS";
-  fi
+  dkrcmp exec --user $(id -u) node yarn "$COMMAND" "${ARGS[@]}";
 fi

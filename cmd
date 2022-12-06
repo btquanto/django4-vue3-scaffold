@@ -15,26 +15,17 @@ function setup_env() {
   cd $ROOT_PATH;
 
   # Global variables
+  [ -z ${MODE+x} ] && ([ ! -z ${ROOT+x} ] || [ ! -z ${root+x} ]) && MODE="root"
   PROJECT=`basename "$(pwd)" | tr '[:upper:]' '[:lower:]'`;
   ENV_DOCKER="config/.docker";
 
-  if [ $# -gt 0 ]; then APP=$1; fi
-  COMMAND=""
-  if [ $# -gt 1 ]; then COMMAND=$2; fi;
+  [ $# -gt 0 ] && APP=$1;
+  [ $# -gt 1 ] && COMMAND=$2 || COMMAND="";
 
   shift 2;
-  ARGS=""
+  ARGS=()
   for arg in "$@"; do
-      arg="${arg//\\/\\\\}"
-      if [[ $arg == *" "* ]]; then
-        ARGS="$ARGS \"${arg//\"/\\\"}\""
-      else
-        if [ -z $ARGS ]; then
-          ARGS="$arg"
-        else
-          ARGS="$ARGS ${arg//\"/\\\"}"
-        fi
-      fi
+    ARGS+=("$arg")
   done
 }
 

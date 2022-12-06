@@ -2,28 +2,13 @@
 mkdir -p dist;
 
 if [[ $APP == "node" ]]; then
-  if [[ $COMMAND == "install" ]]; then
-    U_ID="$(id -u root)";
-    G_ID="$(id -g root)";
-    if [[ -z "$ARGS" ]] && [[ ! -z "$APP_DEPENDENCIES" ]]; then
-      U_ID=$U_ID G_ID=$G_ID dkrcmp exec --user $U_ID node sh /src/_development/apk-install.sh "$NODE_DEPENDENCIES";
-    elif [[ ! -z "$ARGS" ]]; then
-      U_ID=$U_ID G_ID=$G_ID dkrcmp exec --user $U_ID node sh /src/_development/apk-install.sh "$ARGS";
-    fi
+  if [[ $MODE == "root" ]]; then
+    dkrcmp exec node $COMMAND $ARGS;
   else
-    if [[ $MODE == "root" ]]; then
-      dkrcmp exec --user 0 node $COMMAND $ARGS;
-    else
-      dkrcmp exec node $COMMAND $ARGS;
-    fi
+    dkrcmp exec --user $(id -u) node $COMMAND $ARGS;
   fi
 fi
 
 if [[ $APP == "yarn" ]]; then
-  if [[ $COMMAND == "install" && ! -z "$NODE_DEPENDENCIES" ]]; then
-    U_ID="$(id -u root)";
-    G_ID="$(id -g root)";
-    U_ID=$U_ID G_ID=$G_ID dkrcmp exec --user $U_ID node sh /src/_development/apk-install.sh "$NODE_DEPENDENCIES";
-  fi
-  dkrcmp exec node yarn $COMMAND $ARGS;
+  dkrcmp exec --user $(id -u) node yarn $COMMAND $ARGS;
 fi

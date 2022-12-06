@@ -20,9 +20,14 @@ fi
 
 source $VENV_DIR/bin/activate;
 
-if [ $# -gt 1 ]; then
-  pip install $@;
+if [ $# -gt 0 ]; then
+  echo "pip wheel --find-links=$WHEELDIR -w $WHEELDIR $@;";
+  echo "pip install --no-index --find-links=$WHEELDIR $@;";
+  pip wheel --find-links=$WHEELDIR -w $WHEELDIR $@;
+  pip install --no-index --find-links=$WHEELDIR $@;
 else
+  echo "pip wheel --find-links=$WHEELDIR -w $WHEELDIR -r $REQUIREMENTS";
+  echo "pip install --no-index --find-links=$WHEELDIR -r $REQUIREMENTS";
   pip wheel --find-links=$WHEELDIR -w $WHEELDIR -r $REQUIREMENTS;
   pip install --no-index --find-links=$WHEELDIR -r $REQUIREMENTS;
 fi

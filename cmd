@@ -17,8 +17,6 @@ function setup_env() {
   # Global variables
   PROJECT=`basename "$(pwd)" | tr '[:upper:]' '[:lower:]'`;
   ENV_DOCKER="config/.docker";
-  APP_DEPENDENCIES="$(cat packages-app.txt | tr -s '\n' ' ')"
-  NODE_DEPENDENCIES="$(cat packages-node.txt | tr -s '\n' ' ')"
 
   if [ $# -gt 0 ]; then APP=$1; fi
   COMMAND=""
@@ -31,7 +29,11 @@ function setup_env() {
       if [[ $arg == *" "* ]]; then
         ARGS="$ARGS \"${arg//\"/\\\"}\""
       else
-        ARGS="$ARGS ${arg//\"/\\\"}"
+        if [ -z $ARGS ]; then
+          ARGS="$arg"
+        else
+          ARGS="$ARGS ${arg//\"/\\\"}"
+        fi
       fi
   done
 }

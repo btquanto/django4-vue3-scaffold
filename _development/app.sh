@@ -3,22 +3,18 @@ if [[ $APP == "app" ]]; then
     if [[ "start stop restart status" =~ "$COMMAND"  && -z "$ARGS" ]]; then
       ARGS="all";
     fi
-    dkrcmp exec app cmd $COMMAND $ARGS;
-  elif [[ $COMMAND == "pip-install" ]]; then
-    dkrcmp exec app bash /src/_development/pip-install.sh "$ARGS";
-  elif [[ $COMMAND == "install" ]]; then
-    U_ID="$(id -u root)";
-    G_ID="$(id -g root)";
-    if [[ -z "$ARGS" ]] && [[ ! -z "$APP_DEPENDENCIES" ]]; then
-      U_ID=$U_ID G_ID=$G_ID dkrcmp exec --user $U_ID app bash /src/_development/apt-install.sh $APP_DEPENDENCIES;
-    elif [[ ! -z "$ARGS" ]]; then
-      U_ID=$U_ID G_ID=$G_ID dkrcmp exec --user $U_ID app bash /src/_development/apt-install.sh $ARGS;
+    dkrcmp exec --user $(id -u) app cmd "$COMMAND" "$ARGS";
+  elif [[ "$COMMAND" == "pip-install" ]]; then
+    if [[ ! -z "$ARGS" ]]; then
+      dkrcmp exec --user $(id -u) app bash /src/_development/pip-install.sh "$ARGS";
+    else  
+      dkrcmp exec --user $(id -u) app bash /src/_development/pip-install.sh;
     fi
   else
-    if [[ $MODE == "root" ]]; then
-      dkrcmp exec --user 0 app $COMMAND $ARGS;
+    if [[ "$MODE" == "root" ]]; then
+      dkrcmp exec app "$COMMAND" "$ARGS";
     else
-      dkrcmp exec app $COMMAND $ARGS;
+      dkrcmp exec --user $(id -u) app "$COMMAND" "$ARGS";
     fi
   fi
 fi

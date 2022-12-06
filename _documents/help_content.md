@@ -14,21 +14,14 @@
 
   ## Example
 
-    ./cmd app install -U pip # Upgrade pip requirements
+    ./cmd app bash # Open a bash shell in the app container
 
   ## Commands
 
-    pip-install <arguments>
+    install <arguments>
 
   Calling `pip3 install <arguments>`.
   If no <arguments> is provided, default to calling `pip3 install -r requirements.txt`.
-
-    install <arguments>
-
-  Calling `apt update; apt install -y <arguments>`.
-  If no `<arguments>` is provided, default to installing the dependencies specified in `packages-app.txt`.
-
-    exec
 
   exec the command specified in `<arguments>`
 
@@ -42,10 +35,9 @@
   Start/Stop/Restart/Checking Status supervisor services.
   If no services are specified, all services are selected.
 
-    [migrate|makemigrations|showmigrations|makemessages|compilemessages|...] <arguments>
+    [migrate|makemigrations] <arguments>
 
-  `django_admin` commands.
-
+  Common `django_admin` commands.
 
 # `yarn` module
 
@@ -76,14 +68,8 @@
 
     ./cmd node <command> <arguments>
 
-  Executing commands in node container
+  Executing bash commands in node container
 
-  ## Node container commands
-
-    install
-
-  Calling `apk --no-cache add <arguments>`
-  If no `<arguments>` are specified, default to install the dependencies specified in `packages-node.txt`
 
 # `docker` module
 
@@ -91,7 +77,24 @@
 
   Shortcut for calling
 
-    DOCKER_USER=$DOCKER_USER docker-compose --env-file /path/to/env/file -p <project_name> <command> <arguments>
+    docker-compose --env-file /path/to/env/file -p <project_name> <command> <arguments>
 
-  - `DOCKER_USER`: Depends on the `G_ID` and `U_ID` specified in `config/.docker`. Default to `"$(id -u):$(id -g)"`.
+  ## Docker commands
 
+    ./cmd docker build
+
+  Build or rebuild docker images
+
+    ./cmd docker up
+
+  Start docker containers
+
+    ./cmd docker down
+
+  Destroy docker containers
+
+    ./cmd docker logs <service>
+
+  View docker logs for `<service>`. If no `<service>` is provided, default to `app`.
+
+    ./cmd docker 

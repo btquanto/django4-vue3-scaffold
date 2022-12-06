@@ -18,7 +18,7 @@ Edit `config/.docker`, `config/.django` and `backend/config/local.py` as fit.
 
 ## AUTO_START
 
-The configuration `AUTO_START` will be used in `supervisor` configuration. This controls whether or not the supervisord service `asgi` will be started when the container starts. Set this to `true` for production.
+The configuration `UNIT_AUTO_START` and `NGINX_AUTO_START` will be used in `supervisor` configuration. This controls whether or not the corresponding supervisord services (`unit`, `nginx`) will be started when the container starts. Set these to `true` for production.
 
 # Before first run
 
@@ -38,6 +38,8 @@ The configuration `AUTO_START` will be used in `supervisor` configuration. This 
 
 ## Build front-end
 
+Run one of the following commands:
+
     # Build for development
     ./cmd yarn dev
 
@@ -51,7 +53,11 @@ The configuration `AUTO_START` will be used in `supervisor` configuration. This 
 
 ## Start docker (if it's not already started)
 
+    # Start in background
     ./cmd docker up
+
+    # Start in foreground
+    ./cmd docker up --fg
 
 ## View docker log
 
@@ -67,13 +73,13 @@ The configuration `AUTO_START` will be used in `supervisor` configuration. This 
 
 ## Start/Stop/Restart back-end server using supervisor
 
-    ./cmd app start/stop/restart asgi
+    ./cmd app start/stop/restart unit
 
 ## Check supervisor service status
 
     ./cmd app status # All services
-    ./cmd app status asgi # Specific services
+    ./cmd app status unit # Specific services
 
 ## Access on browser
 
-After everything, you can access the page at `localhost:7500`
+After everything, you can access the page at `localhost:8080`

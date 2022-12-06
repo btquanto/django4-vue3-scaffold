@@ -33,6 +33,8 @@ DEBUG = os.getenv('DEBUG', 'False').lower() in ('true', 'yes', '1', 't', 'y')
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost').split(',')
 
+CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS', 'localhost').split(',')
+
 APPEND_SLASH = False
 
 
@@ -143,7 +145,7 @@ LANGUAGE_CODE = os.getenv('LANGUAGE_CODE', 'en')
 
 TIME_ZONE = os.getenv('TIME_ZONE', 'Asia/Ho_Chi_Minh')
 
-LOCALE_PATHS = [ os.path.join(BASE_DIR, 'locales') ]
+LOCALE_PATHS = ( os.path.join(BASE_DIR, 'locales'), )
 
 USE_I18N = True
 
@@ -155,10 +157,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATICFILES_DIRS = (
+STATICFILES_DIRS = list(filter(os.path.exists, (
     os.path.join(BASE_DIR, 'static'),
     os.path.join(BASE_DIR.parent, "dist"),
-)
+    os.path.join(BASE_DIR.parent, "frontend", "public"),
+)))
 
 STATIC_URL = 'static/'
 

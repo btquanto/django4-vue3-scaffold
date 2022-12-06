@@ -3,7 +3,11 @@ if [[ $APP == "app" ]]; then
     if [[ "start stop restart status" =~ "$COMMAND"  && -z "$ARGS" ]]; then
       ARGS="all";
     fi
-    dkrcmp exec --user $(id -u) app cmd "$COMMAND" "$ARGS";
+    if [ -z "$ARGS" ]; then
+      dkrcmp exec --user $(id -u) app cmd "$COMMAND";
+    else
+      dkrcmp exec --user $(id -u) app cmd "$COMMAND" "$ARGS";
+    fi
   elif [[ "$COMMAND" == "pip-install" ]]; then
     if [[ ! -z "$ARGS" ]]; then
       dkrcmp exec --user $(id -u) app bash /src/_development/pip-install.sh "$ARGS";
@@ -12,9 +16,17 @@ if [[ $APP == "app" ]]; then
     fi
   else
     if [[ "$MODE" == "root" ]]; then
-      dkrcmp exec app "$COMMAND" "$ARGS";
+      if [ -z "$ARGS" ]; then
+        dkrcmp exec app "$COMMAND";
+      else
+        dkrcmp exec app "$COMMAND" "$ARGS";
+      fi
     else
-      dkrcmp exec --user $(id -u) app "$COMMAND" "$ARGS";
+      if [ -z "$ARGS" ]; then
+        dkrcmp exec --user $(id -u) app "$COMMAND";
+      else
+        dkrcmp exec --user $(id -u) app "$COMMAND" "$ARGS";
+      fi
     fi
   fi
 fi

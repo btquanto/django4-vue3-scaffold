@@ -67,9 +67,3 @@ else
         echo "All dependencies are installed";
     fi;
 fi
-
-# Services
-supervisord;
-
-echo "Server started...";
-sleep infinity;

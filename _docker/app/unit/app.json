@@ -1,0 +1,34 @@
+{
+  "listeners": {
+    "*:8000": {
+      "pass": "routes/app"
+    }
+  },
+  "routes": {
+    "app": [
+      {
+        "action": {
+          "pass": "applications/python"
+        }
+      }]
+  },
+  "applications": {
+    "python": {
+      "type": "python",
+      "processes": {
+        "spare": 1,
+        "max": 2
+      },
+      "working_directory": "/src/",
+      "user": "app",
+      "group": "app",
+      "path": "/src/backend",
+      "home": "/src/.cache/.virtualenv",
+      "module": "config.asgi",
+      "callable": "application",
+      "environment": {
+        "DJANGO_LOCAL_CONFIG": "config/.django"
+      }
+    }
+  }
+}

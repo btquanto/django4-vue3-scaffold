@@ -1,0 +1,92 @@
+version: '3.8'
+
+volumes:
+  database:
+
+networks:
+  db:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.19.1.0/8
+
+services:
+  # Database
+  mysql:
+    image: mariadb:10.5-focal
+    networks:
+      db:
+        ipv4_address: 172.19.1.10
+    environment:
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+    volumes:
+        # Database data
+        - database:/var/lib/mysql
+        # Miscelaneous
+        - ./_docker/bashrc.sh:/.bashrc
+  # Database admin
+  adminer:
+    image: adminer:4.8.1-standalone
+    networks:
+      db:
+        ipv4_address: 172.19.1.11
+    volumes:
+        # Miscelaneous
+        - ./_docker/bashrc.sh:/.bashrc
+  # Node
+  node:
+    image: app-node:node-17
+    build:
+      context: ./_docker/node/build
+      dockerfile: Dockerfile
+      args:
+        USER_ID: ${USER_ID:-1000}
+    working_dir: /src
+    volumes:
+      # Source folder
+      - ./:/src
+      # Miscelaneous
+      - ./_docker/bashrc.sh:/.bashrc
+    command: ["sleep", "infinity"]
+  # Nginx / Nginx Unit / Python
+  app:
+    image: app-python:unit-python-3.10
+    build:
+      context: ./_docker/app/build
+      dockerfile: Dockerfile
+      args:
+        USER_ID: ${USER_ID:-1000}
+    depends_on:
+      - adminer
+      - mysql
+    networks:
+      - db
+    working_dir: /src
+    ports:
+      - 8080:8080
+    extra_hosts:
+      - "docker.host:host-gateway"
+    environment:
+      - DJANGO_SETTINGS_MODULE=${DJANGO_CONFIG_MODULE}
+      - DJANGO_LOCAL_CONFIG=${DJANGO_LOCAL_CONFIG}
+      - UNIT_AUTO_START=${UNIT_AUTO_START}
+      - NGINX_AUTO_START=${NGINX_AUTO_START}
+    volumes:
+      # Source folder
+      - ./:/src
+      # Startup scripts
+      - ./_docker/app/scripts/startup.sh:/startup.sh:ro
+      - ./_docker/app/scripts/entrypoint.sh:/entrypoint.sh:ro
+      # Supervisor
+      - ./_docker/app/supervisor:/etc/supervisor:ro
+      # Nginx / Unit
+      - ./_docker/app/nginx/nginx.conf:/etc/nginx/sites-available/default:ro
+      - ./_docker/app/nginx/server.configs:/etc/nginx/conf.d/server.configs:ro
+      - ./_docker/app/unit/:/docker-entrypoint.d/
+      # Miscelaneous
+      - ./_docker/app/scripts/command.sh:/usr/local/bin/cmd:ro
+      - ./_docker/bashrc.sh:/.bashrc
+    entrypoint: ["/entrypoint.sh"]

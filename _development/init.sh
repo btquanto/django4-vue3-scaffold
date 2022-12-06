@@ -1,12 +1,11 @@
 function init() {
-
-  if [ -f "config/.docker" ]; then
-      source "config/.docker";
-  else
-      printf "Docker environment file (config/.docker) not found. Generating...\n";
-      cp config/_docker config/.docker;
-      printf "'config/.docker' is added to your project. You may want to update this file manually.\n\n"
+  if [ ! -f "config/.docker" ]; then
+    printf "Docker environment file (config/.docker) not found. Generating...\n";
+    cp config/_docker config/.docker;
+    printf "'config/.docker' is added to your project. You may want to update this file manually.\n\n"
   fi
+
+  source "config/.docker";
 
   if [ ! -z "$DJANGO_CONFIG_MODULE" ]; then
       CONFIG_FILE="backend/${DJANGO_CONFIG_MODULE//\.//}.py";

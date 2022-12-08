@@ -18,6 +18,7 @@ os.chdir(ROOT_PATH)
 
 def call(*args, env=None):
     cmd = " ".join(map(lambda s : f'"{s}"' if " " in s else s, map(str, args)))
+    print(cmd)
     environ = os.environ.copy()
     if env:
         environ.update(env)
@@ -30,8 +31,8 @@ def getuid():
     return 0 if IS_ROOT else os.getuid()
 
 if APP not in ["yarn", "app", "node", "docker", "init"]:
-    with open('_documents/help_content.md', 'r', encoding="utf-8") as f:
-        print(f.read())
+    subprocess_call("cat _documents/help_content.md", shell=True)
+    sys.exit(0)
 
 if APP == "init":
     if not os.path.exists("config/.docker"):
@@ -53,12 +54,13 @@ if APP == "init":
         print("'config/.django' is added to your project. You may want to update this file manually.\n\n")
 
 if APP == "app":
+    if COMMAND == "install":
+        COMMAND = "pip-install"
+
     if COMMAND in ["serve", "migrate", "makemigrations", "start", "stop", "restart", "status"]:
         if COMMAND in ["serve", "migrate", "makemigrations", "start", "stop", "restart", "status"]:
             IS_ROOT = True
-        docker_compose("exec", "--user", getuid(), "app", "cmd", *ARGS)
-    elif COMMAND in ["install"]:
-        docker_compose("exec", "--user", os.getuid(), "app", "bash", "pip-install", *ARGS)
+        docker_compose("exec", "--user", getuid(), "app", "cmd", COMMAND, *ARGS)
     else:
         docker_compose("exec", "--user", getuid(), "app", COMMAND, *ARGS)
 
@@ -66,18 +68,18 @@ if APP == "docker":
     if COMMAND == "up":
         if len(ARGS) == 0:
             ARGS.append('-d')
-        ARGS.remove("--fg")
+        if "--fg" in ARGS:
+            ARGS.remove("--fg")
 
     if COMMAND == "logs":
         if len(ARGS) == 0:
             ARGS.append('app')
-        ARGS.remove("-f")
+        if "-f" in ARGS:
+            ARGS.remove("-f")
         ARGS.insert(0, '-f')
 
     if COMMAND == "build":
         docker_compose(COMMAND, env={"USER_ID" : str(os.getuid())})
-    elif COMMAND == "exec":
-        docker_compose(COMMAND, "--user", getuid(), *ARGS)
     else:
         docker_compose(COMMAND, *ARGS)
 

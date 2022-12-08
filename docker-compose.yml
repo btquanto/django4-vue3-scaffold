@@ -4,19 +4,18 @@ volumes:
   database:
 
 networks:
-  db:
+  appnet:
     ipam:
       driver: default
       config:
-        - subnet: 172.19.1.0/8
+        - subnet: 192.27.0.0/16
 
 services:
   # Database
   mysql:
     image: mariadb:10.5-focal
     networks:
-      db:
-        ipv4_address: 172.19.1.10
+      appnet:
     environment:
       - MYSQL_DATABASE=${DB_NAME}
       - MYSQL_USER=${DB_USER}
@@ -31,8 +30,9 @@ services:
   adminer:
     image: adminer:4.8.1-standalone
     networks:
-      db:
-        ipv4_address: 172.19.1.11
+      appnet:
+    ports:
+      - 8080:8080
     volumes:
         # Miscelaneous
         - ./_docker/bashrc.sh:/.bashrc
@@ -63,10 +63,10 @@ services:
       - adminer
       - mysql
     networks:
-      - db
+      appnet:
     working_dir: /src
     ports:
-      - 8080:8080
+      - 9000:9000
     extra_hosts:
       - "docker.host:host-gateway"
     environment:
@@ -77,16 +77,18 @@ services:
     volumes:
       # Source folder
       - ./:/src
-      # Startup scripts
+      # Scripts
       - ./_docker/app/scripts/startup.sh:/startup.sh:ro
       - ./_docker/app/scripts/entrypoint.sh:/entrypoint.sh:ro
       # Supervisor
       - ./_docker/app/supervisor:/etc/supervisor:ro
       # Nginx / Unit
-      - ./_docker/app/nginx/nginx.conf:/etc/nginx/sites-available/default:ro
+      - ./_docker/app/ssl/:/etc/nginx/ssl/
+      - ./_docker/app/nginx/nginx.https.conf:/etc/nginx/sites-available/default:ro
       - ./_docker/app/nginx/server.configs:/etc/nginx/conf.d/server.configs:ro
       - ./_docker/app/unit/:/docker-entrypoint.d/
       # Miscelaneous
       - ./_docker/app/scripts/command.sh:/usr/local/bin/cmd:ro
+      - ./_docker/app/scripts/pip-install.sh:/usr/local/bin/pip-install:ro
       - ./_docker/bashrc.sh:/.bashrc
     entrypoint: ["/entrypoint.sh"]

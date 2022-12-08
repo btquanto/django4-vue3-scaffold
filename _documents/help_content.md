@@ -97,4 +97,4 @@
 
   View docker logs for `<service>`. If no `<service>` is provided, default to `app`.
 
-    ./cmd docker 
+    ./cmd docker

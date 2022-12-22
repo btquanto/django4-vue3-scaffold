@@ -17,3 +17,6 @@ DB_NAME="app"
 DB_USER="app"
 DB_PASSWORD="mydbpassword"
 DB_PORT=3306
+
+# ElasticSearch
+ELASTICSEARCH_URL="http://elasticsearch:9200"

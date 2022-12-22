@@ -2,6 +2,8 @@ version: '3.8'
 
 volumes:
   database:
+  elastic_data:
+    driver: local
 
 networks:
   appnet:
@@ -38,16 +40,30 @@ services:
         - ./_docker/bashrc.sh:/.bashrc
   # Elastic search
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.5.2
+    image: app-elasticsearch:8.5.2
+    build:
+      context: ./_docker/elasticsearch/build
+      dockerfile: Dockerfile
     container_name: elasticsearch
     networks:
       appnet:
     ports:
       - 9200:9200
+      - 9300:9300
     environment:
       - discovery.type=single-node
+      - xpack.security.enabled=false
       - ES_JAVA_OPTS=-Xms512m -Xmx512m
-    mem_limit: 1073741824
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    volumes:
+      - elastic_data:/usr/share/elasticsearch/data
+    mem_limit: 1.5g
   # Kibana
   kibana:
     image: docker.elastic.co/kibana/kibana:8.5.2
@@ -57,6 +73,8 @@ services:
       - 5601:5601
     depends_on:
       - elasticsearch
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
   # Node
   node:
     image: app-node:node-17
@@ -80,6 +98,7 @@ services:
       dockerfile: Dockerfile
       args:
         USER_ID: ${USER_ID:-1000}
+    mem_limit: 8g
     depends_on:
       - adminer
       - mysql
@@ -109,7 +128,7 @@ services:
       - ./_docker/app/nginx/server.configs:/etc/nginx/conf.d/server.configs:ro
       - ./_docker/app/unit/:/docker-entrypoint.d/
       # Miscelaneous
-      - ./_docker/app/scripts/command.sh:/usr/local/bin/cmd:ro
+      - ./_docker/app/scripts/command.py:/usr/local/bin/cmd:ro
       - ./_docker/app/scripts/pip-install.sh:/usr/local/bin/pip-install:ro
       - ./_docker/bashrc.sh:/.bashrc
     entrypoint: ["/entrypoint.sh"]

@@ -114,6 +114,10 @@ DATABASES = {
 }
 
 
+# ElasticSearch
+ELASTICSEARCH_URL = os.getenv('ELASTICSEARCH_URL', 'CHANGE_ME')
+
+
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 

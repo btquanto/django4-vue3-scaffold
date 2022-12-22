@@ -11,6 +11,11 @@ webpack-stats.json
 # Ignore logs
 logs/*
 
+# Exclude data folder
+data/*
+_elastic/data/*
+_elastic/docs/*
+
 # Ignore node_modules folders
 **/node_modules
 

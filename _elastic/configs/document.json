@@ -1,0 +1,159 @@
+{
+  "settings": {
+    "number_of_shards": 5,
+    "number_of_replicas": 1,
+    "analysis": {
+      "char_filter": {
+        "normalize": {
+          "type": "icu_normalizer",
+          "name": "nfkc",
+          "mode": "compose"
+        }
+      },
+      "tokenizer": {
+        "ja_kuromoji_tokenizer": {
+          "mode": "search",
+          "type": "kuromoji_tokenizer",
+          "discard_compound_token": true,
+          "user_dictionary_rules": [
+            "東京スカイツリー,東京 スカイツリー,トウキョウ スカイツリー,カスタム名詞"
+          ]
+        },
+        "ja_ngram_tokenizer": {
+          "type": "ngram",
+          "min_gram": 2,
+          "max_gram": 2,
+          "token_chars": ["letter", "digit"]
+        }
+      },
+      "filter": {
+        "ja_index_synonym": {
+          "type": "synonym",
+          "lenient": false,
+          "synonyms": []
+        },
+        "ja_search_synonym": {
+          "type": "synonym_graph",
+          "lenient": false,
+          "synonyms": ["米国, アメリカ", "東京大学, 東大"]
+        }
+      },
+      "analyzer": {
+        "ja_kuromoji_index_analyzer": {
+          "type": "custom",
+          "char_filter": ["normalize"],
+          "tokenizer": "ja_kuromoji_tokenizer",
+          "filter": [
+            "kuromoji_baseform",
+            "kuromoji_part_of_speech",
+            "ja_index_synonym",
+            "cjk_width",
+            "ja_stop",
+            "kuromoji_stemmer",
+            "lowercase"
+          ]
+        },
+        "ja_kuromoji_search_analyzer": {
+          "type": "custom",
+          "char_filter": ["normalize"],
+          "tokenizer": "ja_kuromoji_tokenizer",
+          "filter": [
+            "kuromoji_baseform",
+            "kuromoji_part_of_speech",
+            "ja_search_synonym",
+            "cjk_width",
+            "ja_stop",
+            "kuromoji_stemmer",
+            "lowercase"
+          ]
+        },
+        "ja_ngram_index_analyzer": {
+          "type": "custom",
+          "char_filter": ["normalize"],
+          "tokenizer": "ja_ngram_tokenizer",
+          "filter": ["lowercase"]
+        },
+        "ja_ngram_search_analyzer": {
+          "type": "custom",
+          "char_filter": ["normalize"],
+          "tokenizer": "ja_ngram_tokenizer",
+          "filter": ["ja_search_synonym", "lowercase"]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "company": {
+        "properties": {
+          "edinet_code": { "type":  "keyword" },
+          "security_code": { "type":  "keyword" },
+          "company_name": {
+            "type": "text",
+            "search_analyzer": "ja_kuromoji_search_analyzer",
+            "analyzer": "ja_kuromoji_index_analyzer",
+            "fields": {
+              "ngram": {
+                "type": "text",
+                "search_analyzer": "ja_ngram_search_analyzer",
+                "analyzer": "ja_ngram_index_analyzer"
+              }
+            }
+          },
+          "company_address": {
+            "type": "text",
+            "search_analyzer": "ja_kuromoji_search_analyzer",
+            "analyzer": "ja_kuromoji_index_analyzer",
+            "fields": {
+              "ngram": {
+                "type": "text",
+                "search_analyzer": "ja_ngram_search_analyzer",
+                "analyzer": "ja_ngram_index_analyzer"
+              }
+            }
+          },
+          "industry": {
+            "type": "text",
+            "search_analyzer": "ja_kuromoji_search_analyzer",
+            "analyzer": "ja_kuromoji_index_analyzer",
+            "fields": {
+              "ngram": {
+                "type": "text",
+                "search_analyzer": "ja_ngram_search_analyzer",
+                "analyzer": "ja_ngram_index_analyzer"
+              }
+            }
+          },
+
+          "balance_sheet_url": { "type": "text" },
+          "consolidated_balance_sheet_url": { "type": "text" },
+          "profit_loss_url": { "type": "text" },
+          "consolidated_profit_loss_url": { "type": "text" },
+          "meeting_explanatory_materials_url": { "type": "text" },
+          "growth_potential_materials_url": { "type": "text" }
+        }
+      },
+      "material_type": { "type": "text" },
+      "file_name": { "type": "text" },
+      "url": { "type": "text" },
+      "content": {
+        "type": "text",
+        "search_analyzer": "ja_kuromoji_search_analyzer",
+        "analyzer": "ja_kuromoji_index_analyzer",
+        "fields": {
+          "ngram": {
+            "type": "text",
+            "search_analyzer": "ja_ngram_search_analyzer",
+            "analyzer": "ja_ngram_index_analyzer"
+          }
+        }
+      },
+      "content_vector": {
+        "type": "dense_vector",
+        "dims": 512,
+        "index": true,
+        "similarity": "dot_product"
+      }
+    }
+  }
+}

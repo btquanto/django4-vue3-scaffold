@@ -15,6 +15,7 @@ logs/*
 data/*
 _elastic/data/*
 _elastic/docs/*
+_elastic/docs.zip
 
 # Ignore node_modules folders
 **/node_modules

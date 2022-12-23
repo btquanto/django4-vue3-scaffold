@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     # Local apps
     'common',
     'todo',
+    'search',
 ]
 
 MIDDLEWARE = [

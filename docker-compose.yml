@@ -7,10 +7,6 @@ volumes:
 
 networks:
   appnet:
-    ipam:
-      driver: default
-      config:
-        - subnet: 192.27.0.0/16
 
 services:
   # Database

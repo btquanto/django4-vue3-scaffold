@@ -56,9 +56,9 @@ class Command(BaseCommand):
                 row = dict(zip(columns, row))
                 row_materials = []
                 edinet_code = row["edinet_code"]
-                print(f"Processing...: {edinet_code}:{ (idx / count * 100):.2f}%", end='\r', flush=True)
+                print(f"Processing... {edinet_code}:{ (idx / count * 100):.2f}%", end='\r', flush=True)
                 if idx % 100 == 0:
-                    print(f"Processing...: {edinet_code}:{ (idx / count * 100):.2f}%")
+                    print(f"Processing... {edinet_code}:{ (idx / count * 100):.2f}%")
                 company = {
                     "edinet_code": edinet_code,
                     "security_code": row["security_code"],
@@ -107,8 +107,6 @@ class Command(BaseCommand):
                             base_url = company["growth_potential_materials_url"].replace("https://console.cloud.google.com/storage/browser/", "https://storage.cloud.google.com/")
                         elif material_type == "explanatory":
                             base_url = company["meeting_explanatory_materials_url"].replace("https://console.cloud.google.com/storage/browser/", "https://storage.cloud.google.com/")
-
-
 
                         material = {
                             "type": material_type,

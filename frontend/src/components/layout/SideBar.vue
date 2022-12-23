@@ -6,7 +6,7 @@
     }">
     <a href="#" class="$flex $items-center $px-2">
       <AcademicCapIcon class="$h-8 $w-8" />
-      <span class="$ml-1 $text-2xl $font-extrabold">Sample App</span>
+      <span class="$ml-1 $text-2xl $font-extrabold">NLP Search</span>
     </a>
     <nav>
       <template v-for="link in navLinks" :key="link.name">
@@ -23,16 +23,9 @@ import { ref } from "vue";
 import { mapGetters } from "vuex";
 import { $gettext } from "@/utils/i18n";
 
-import { AcademicCapIcon, HomeIcon, UserGroupIcon, FolderIcon, CalendarIcon, DocumentDuplicateIcon, DocumentReportIcon } from "@heroicons/vue/solid";
+import { AcademicCapIcon, SearchIcon } from "@heroicons/vue/solid";
 
-const navLinks = ref([
-  { icon: HomeIcon, href: "#", name: $gettext("Dashboard") },
-  { icon: UserGroupIcon, href: "#", name: $gettext("Team") },
-  { icon: FolderIcon, href: "#", name: $gettext("Projects") },
-  { icon: CalendarIcon, href: "#", name: $gettext("Calendar") },
-  { icon: DocumentDuplicateIcon, href: "#", name: $gettext("Documents") },
-  { icon: DocumentReportIcon, href: "#", name: $gettext("Reports") },
-]);
+const navLinks = ref([{ icon: SearchIcon, href: "/search/", name: $gettext("Search") }]);
 </script>
 <script>
 export default {

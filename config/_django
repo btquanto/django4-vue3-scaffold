@@ -4,7 +4,7 @@ DEBUG=True
 # Django settings
 SECRET_KEY="9d4fe465-39f8-4e59-a64f-369b7472349a"
 ALLOWED_HOSTS="localhost,*"
-CSRF_TRUSTED_ORIGINS="http://localhost:8080,http://127.0.0.1:8080"
+CSRF_TRUSTED_ORIGINS="https://localhost:9000,http://localhost:9000"
 VERIFICATION_TOKEN_EXPIRATION=3600
 
 # Language and Time

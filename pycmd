@@ -85,8 +85,8 @@ if APP == "docker":
 
 if APP == "node":
     os.makedirs("dist", exist_ok=True)
-    docker_compose("exec", "--user", getuid(), "app", COMMAND, *ARGS)
+    docker_compose("exec", "--user", getuid(), "node", COMMAND, *ARGS)
 
 if APP == "yarn":
     os.makedirs("dist", exist_ok=True)
-    docker_compose("exec", "--user", os.getuid(), "app", COMMAND, *ARGS)
+    docker_compose("exec", "--user", os.getuid(), "node", "yarn", COMMAND, *ARGS)

@@ -85,7 +85,7 @@
   "mappings": {
     "properties": {
       "edinet_code": { "type":  "keyword" },
-      "security_code": { "type":  "keyword" },
+      "security_code": { "type":  "text" },
       "company_name": {
         "type": "text",
         "search_analyzer": "ja_kuromoji_search_analyzer",

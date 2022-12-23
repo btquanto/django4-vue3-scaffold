@@ -20,8 +20,10 @@ def search_value(index, fields, **kwargs):
     }
     for key, value in kwargs.items():
         search_config[key] = value
+    
+    res = client.search(index, search_config).json()
 
-    return client.search(index, search_config).get("hits", {}).get("hits", [])
+    return res.get("hits", {}).get("hits", [])
 
 
 def search_knn(index, field, value, **kwargs):
@@ -36,4 +38,6 @@ def search_knn(index, field, value, **kwargs):
     for key, value in kwargs.items():
         search_config[key] = value
 
-    return client.search(index, search_config).get("hits", {}).get("hits", [])
+    res = client.search(index, search_config).json()
+
+    return res.get("hits", {}).get("hits", [])

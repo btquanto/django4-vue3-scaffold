@@ -15,7 +15,7 @@ class ElasticSearchClient(APIClient):
                 raise ex
 
         super().__init__(base_url=base_url)
-        self.debug = True
+        self.debug = False
 
     def build_headers(self, headers, _endpoint):
         headers['Content-Type'] = 'application/json'

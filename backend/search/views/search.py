@@ -1,10 +1,12 @@
 import os
+import io
 import json
 import fitz
 
 from django.http import JsonResponse
 from django.utils.translation import gettext as _
 from django.views.generic import TemplateView
+from django.views.decorators.csrf import csrf_exempt
 
 from core.texts.literal import has_meaning
 from core.texts.splittext import split_paragraph
@@ -62,23 +64,18 @@ class SearchIndex(TemplateView):
         return context
 
 
+@csrf_exempt
 def search_document(request):
-    """
-        Search documents by text values
-        Supported fields: type, file_name, content, url, company.edinet_code, comnpany.company_name, company.company_address, company.industry, company.security_code
-        {
-            "fields": {
-                "content":  "力から脅威を受けたり被害を受けたりするおそれのある場合には、組織全体として速やかに対処できる体制を整備しております。"
-                "type": "growth_potential"
-            },
-        }
-    """
     if request.method != "POST":
         return JsonResponse({"success": False, "message": "Invalid method"}, status=400)
 
-    body = json.loads(request.body)
-    fields = body.get("fields")
-    results = search_value(DOCUMENT_INDEX, fields, _source=DOCUMENT_SOURCES, collapse={"field": "company.edinet_code"})
+    fields = json.loads(request.body)
+    fields = {key: value for key, value in fields.items() if type(value) in [str, int]}
+    results = search_value(DOCUMENT_INDEX, fields, _source=DOCUMENT_SOURCES,
+                           collapse={"field": "company.edinet_code"},
+                           highlight={
+                               "fields": {key: {"pre_tags": ["<em>"], "post_tags": ["</em>"]} for key in fields.keys()}
+                           })
 
     return JsonResponse({
         "success": True,
@@ -86,6 +83,7 @@ def search_document(request):
     })
 
 
+@csrf_exempt
 def knn_search_document(request):
     """
         Search with knn search
@@ -102,8 +100,13 @@ def knn_search_document(request):
     if ext != ".pdf":
         return JsonResponse({"message": "Invalid file type"}, status=400)
 
+    # Copy upload file to io.BytesIO
+    stream = io.BytesIO()
+    for chunk in upload.chunks():
+        stream.write(chunk)
+
     sentences = []
-    with fitz.open(upload) as doc:
+    with fitz.open(stream=stream, filetype="pdf") as doc:
         for page in doc:
             content = page.get_text()
             sentences.extend(filter(has_meaning, map(str.strip, split_paragraph(content))))
@@ -117,24 +120,17 @@ def knn_search_document(request):
     })
 
 
+@csrf_exempt
 def search_company(request):
-    """
-        Search company by text values
-        Supported fields: edinet_code, company_name, company_address, industry, security_code
-        {
-            "fields": {
-                "company_name":  "fixer"
-                "company_address": "Tokyo"
-            },
-        }
-    """
     if request.method != "POST":
         return JsonResponse({"success": False, "message": "Invalid method"}, status=400)
 
-    body = json.loads(request.body)
-    fields = body.get("fields")
-    results = search_value(COMPANY_INDEX, fields, _source=COMPANY_SOURCES)
-
+    fields = json.loads(request.body)
+    fields = {key: value for key, value in fields.items() if type(value) in [str, int]}
+    results = search_value(COMPANY_INDEX, fields, _source=COMPANY_SOURCES,
+                           highlight={
+                               "fields": {key: {"pre_tags": ["<em>"], "post_tags": ["</em>"]} for key in fields.keys()}
+                           })
     return JsonResponse({
         "success": True,
         "data": results
